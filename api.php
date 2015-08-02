@@ -115,11 +115,15 @@ function gnuplot($arr) {
 
 	$ret['imgpath'] = $imgpath;
 	$ret['imgtype'] = $imgtype;
-
+	
+	if(file_exists($imgpath)) {
+		$filesize = abs(filesize($imgpath));
+		if($filesize == 0)
+			unlink($imgpath);	
+	}
 	if(!file_exists($imgpath)) {
 		exec("$engine -e \"set term png;set output '$imgpath'\" $codepath", $out, $res);
 		if($res != 0) {
-			unlink($imgpath);
 			$ret['imgpath'] = $config['error'];
 			$ret['imgtype'] = "png";
 		}
