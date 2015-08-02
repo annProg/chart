@@ -76,6 +76,7 @@ function write_code($arr) {
 	$chl = str_replace("&gt;", ">", $chl);
 	$chl = str_replace("&lt;", "<", $chl);
 	$chl = str_replace("&quot;", "\"", $chl);
+	$chl = str_replace("<br />", "\n", $chl);
 	fwrite($file, "$chl");
 	fclose($file);
 }
@@ -91,7 +92,7 @@ function graphviz($arr) {
 	
 	$ret['imgpath'] = $imgpath;
 	$ret['imgtype'] = $imgtype;
-
+	
 	if(!file_exists($imgpath)) {
 		exec("$engine -T$imgtype $gvpath -o $imgpath", $out, $res);
 		if($res != 0) {
@@ -118,6 +119,7 @@ function gnuplot($arr) {
 	if(!file_exists($imgpath)) {
 		exec("$engine -e \"set term png;set output '$imgpath'\" $codepath", $out, $res);
 		if($res != 0) {
+			unlink($imgpath);
 			$ret['imgpath'] = $config['error'];
 			$ret['imgtype'] = "png";
 		}
