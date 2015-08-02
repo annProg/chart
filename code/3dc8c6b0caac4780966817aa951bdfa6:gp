@@ -1,0 +1,2 @@
+set term gif
+plot sin(x)*tan(x)

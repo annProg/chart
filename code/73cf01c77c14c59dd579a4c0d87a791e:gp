@@ -1,0 +1,2 @@
+set term png
+plot sin(x)*cos(x)*tan(x)
