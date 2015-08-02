@@ -56,7 +56,15 @@ function get_args() {
 	if(!in_array($ret['imgtype'], $config['imgtype'])) {
 		$ret['imgtype'] = "png";
 	}
-	$name = md5($ret['chl']) . ":" . $ret['cht'];
+
+	//下面的代码是为了兼容旧版本POST方式调用图片链接的格式
+	$gvflag = explode(":", $ret['cht']);
+	if(array_key_exists("1", $gvflag)) {
+		$flag = $gvflag[1];
+	} else {
+		$flag = $gvflag[0];
+	}
+	$name = md5($ret['chl']) . $flag;
 	$ret['out']['code'] = $config['out']['code'] . $name;
 	$ret['out']['img'] = $config['out']['img'] . $name . "." . $ret['imgtype'];
 	return $ret;
