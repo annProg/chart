@@ -1,2 +1,0 @@
-set term png
-plot sin(x)
