@@ -1,0 +1,27 @@
+<?php
+/**
+ * Usage:
+ * File Name: config.php
+ * Author: annhe  
+ * Mail: i@annhe.net
+ * Created Time: 2017-05-04 17:44:55
+ **/
+
+$config = array();
+// engine类型
+$config['engine'] = array("gv"=>"Graphviz",
+	"gv:dot"=>"Dot", 
+	"gv:neato"=>"Neato", 
+	"gv:fdp"=>"Fdp", 
+	"gv:sfdp"=>"Sfdp", 
+	"gv:twopi"=>"Twopi", 
+	"gv:circo"=>"Circo", 
+	"gp"=>"Gnuplot", 
+	"ditaa"=>"Ditaa");
+$config['imgtype'] = array("png", "gif", "jpeg");
+// 代码保存路径
+$config['out']['code'] = "./code/";
+// 图片保存路径
+$config['out']['img'] = "./img/";
+// 错误图片
+$config['error'] = "error.png";

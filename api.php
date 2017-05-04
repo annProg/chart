@@ -5,25 +5,12 @@
  * $Id api.php  tecbbs@qq.com 2015-6-8 $
  **/
 
-$config = array();
-$config['engine'] = array("gv","gv:dot", "gv:neato", "gv:fdp", "gv:sfdp", "gv:twopi", "gv:circo", "gp");
-$config['imgtype'] = array("png", "gif", "jpeg");
-$config['out']['code'] = "./code/";
-$config['out']['img'] = "./img/";
+require 'config.php';
 foreach ( $config['out'] as $v ) {
 	if(!file_exists($v)) {
 		mkdir($v, 0755);
 	} 
 }
-if(isset($_SERVER['HTTP_HOST'])) {
-	$config['host'] = $_SERVER['HTTP_HOST'];
-}
-else {
-	$config['host'] = "localhost";
-}
-$config['siteurl'] = "http://" . $config['host'] . "/gv/";
-$config['error'] = "error.png";
-
 
 function error() {
 	die("args error! nothing to do...");
@@ -50,7 +37,7 @@ function get_args() {
 	} else {
 		error();
 	}
-	if(!in_array($ret['cht'], $config['engine'])) {
+	if(!array_key_exists($ret['cht'], $config['engine'])) {
 		error();
 	}
 	if(!in_array($ret['imgtype'], $config['imgtype'])) {
@@ -139,6 +126,33 @@ function gnuplot($arr) {
 	return $ret;
 }
 
+function ditaa($arr) {
+	$ret = array();
+	$imgpath = $arr['out']['img'];
+	$imgtype = "png";
+
+	$codepath = $arr['out']['code'];
+	$engine = $arr['engine'];
+	global $config;
+
+	$ret['imgpath'] = $imgpath;
+	$ret['imgtype'] = $imgtype;
+	
+	if(file_exists($imgpath)) {
+		$filesize = abs(filesize($imgpath));
+		if($filesize == 0)
+			unlink($imgpath);	
+	}
+	if(!file_exists($imgpath)) {
+		exec("$engine $codepath $imgpath", $out, $res);
+		if($res != 0) {
+			$ret['imgpath'] = $config['error'];
+			$ret['imgtype'] = "png";
+		}
+	}
+	return $ret;
+}
+
 $api = get_args();
 write_code($api);
 
@@ -154,6 +168,9 @@ switch ($arr[0]) {
 	case "gp":
 		$api['engine'] = "gnuplot";
 		$plot = gnuplot($api);break;
+	case "ditaa":
+		$api['engine'] = "ditaa";
+		$plot = ditaa($api);break;
 	defualt:
 		error();
 }
