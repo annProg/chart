@@ -8,6 +8,8 @@
  **/
 
 $config = array();
+// api链接地址
+$config['api'] = "http://xxx.net/api.php";
 // engine类型
 $config['engine'] = array("gv"=>"Graphviz",
 	"gv:dot"=>"Dot", 
