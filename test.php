@@ -9,6 +9,9 @@ body {
 	margin:auto;
 	font-size: large;
 }
+textarea {
+	font-family: "Courier New";
+}
 #content {
 	box-shadow: 0 0 5px #BBB;
 	height: 1000px;
@@ -18,11 +21,16 @@ body {
 	margin-top: 50px;
 }
 #editor {
-	width: 45%;
+	width: 49%;
 	float: left;
+}
+#editor #code {
+	width: 100%;
+	height: 500px;
 }
 #preview {
 	width: 45%;
+	margin-left: 20px;
 	float: right;
 }
 </style>
@@ -53,7 +61,7 @@ if(isset($_GET['engine']))
 }
 
 $engines = $config['engine'];
-$html = '<textarea id="code" name="code" cols="100" rows="20">' . $default_code . '</textarea>';
+$html = '<textarea id="code" name="code">' . $default_code . '</textarea>';
 $html .= '<br>';
 $html .= '<select id="engine" name="engine">';
 
