@@ -82,7 +82,7 @@ print_r($html);
 
 if(isset($_GET['submit']))
 {
-	$api = "http://repo.annhe.net/cmdb/chart/api.php?cht=" . $_GET['engine'] . "&chl=";
+	$api = $config['api'] . "?cht=" . $_GET['engine'] . "&chl=";
 	$code = urlencode($_GET['code']);
 	print("<div id=\"preview\"><img src=\"$api$code\" /></div>");
 }
