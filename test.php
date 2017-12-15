@@ -2,13 +2,13 @@
 <html>
 <head>
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
-<script src="https://cdn.bootcss.com/ace/1.2.9/mode-dot.js"></script>
-<script src="https://cdn.bootcss.com/ace/1.2.9/mode-markdown.js"></script>
-<script src="https://cdn.bootcss.com/ace/1.2.9/mode-asciidoc.js"></script>
-<script src="https://cdn.bootcss.com/ace/1.2.9/theme-github.js"></script>
-<script src="https://cdn.bootcss.com/marked/0.3.7/marked.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.9/ace.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.9/mode-dot.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.9/mode-markdown.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.9/mode-asciidoc.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.9/theme-github.js"></script>
+<script src="//cdn.bootcss.com/marked/0.3.7/marked.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" charset="utf-8">
 <style type="text/css">
 body { 
@@ -189,7 +189,7 @@ if(isset($_GET['submit']))
 			var level = 0;
 			shape = "box";
 			switch(tagName) {
-				case "H1": level = 1;color = "tomato"; shape = "rectangle";break;
+				case "H1": level = 1;color = "tomato"; shape = "ellipse";break;
 				case "H2": level = 2;color = "yellow";break;
 				case "H3": level = 3;color = "lightblue2";break;
 				case "H4": level = 4;color = "whitesmoke";break;
@@ -218,7 +218,7 @@ if(isset($_GET['submit']))
 			}
 			if(label) {
 				id++;
-				nodes.push('"' + node + '"[label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
+				nodes.push('"' + node + '"[color="' + color + '",label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
 			}
 			if(prev) {
 				edges.push('"' + prev + '" -> "' + node + '";');	
