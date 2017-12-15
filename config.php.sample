@@ -19,7 +19,8 @@ $config['engine'] = array("gv"=>"Graphviz",
 	"gv:twopi"=>"Twopi", 
 	"gv:circo"=>"Circo", 
 	"gp"=>"Gnuplot", 
-	"ditaa"=>"Ditaa");
+	"ditaa"=>"Ditaa",
+	"markdown"=>"Markdown");
 $config['imgtype'] = array("png", "gif", "jpeg");
 // 代码保存路径
 $config['out']['code'] = "./code/";

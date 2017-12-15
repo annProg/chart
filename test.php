@@ -4,9 +4,12 @@
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
 <script src="https://cdn.bootcss.com/ace/1.2.9/mode-dot.js"></script>
+<script src="https://cdn.bootcss.com/ace/1.2.9/mode-markdown.js"></script>
 <script src="https://cdn.bootcss.com/ace/1.2.9/mode-asciidoc.js"></script>
 <script src="https://cdn.bootcss.com/ace/1.2.9/theme-github.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<script src="https://cdn.bootcss.com/marked/0.3.7/marked.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" charset="utf-8">
 <style type="text/css">
 body { 
 	width:90%; 
@@ -52,6 +55,10 @@ textarea {
 	float: right;
 	text-align: center;
 }
+
+#show-dot-code {
+	text-align: left;
+}
 </style>
 <title>Chart Api Test Tool</title>
 </head>
@@ -70,10 +77,15 @@ require 'config.php';
  * Created Time: 2017-05-04 17:04:52
  **/
 $default_code = "";
+$default_dot = "";
 $selected = "gv";
 if(isset($_GET['code']))
 {
 	$default_code = $_GET['code'];
+}
+if(isset($_GET['markdown-dot']))
+{
+	$default_dot = $_GET['markdown-dot'];
 }
 if(isset($_GET['engine']))
 {
@@ -82,6 +94,7 @@ if(isset($_GET['engine']))
 
 $engines = $config['engine'];
 $html = '<textarea id="code" name="code">' . $default_code . '</textarea>';
+$html .= '<textarea id="markdown-dot" name="markdown-dot" style="display:none">' . $default_dot . '</textarea>';
 $html .= '<br>';
 $html .= '<select id="engine" name="engine">';
 
@@ -102,9 +115,16 @@ print_r($html);
 
 if(isset($_GET['submit']))
 {
-	$api = $config['api'] . "?cht=" . $_GET['engine'] . "&chl=";
+	$engine = $_GET['engine'];
 	$code = urlencode($_GET['code']);
-	print("<div id=\"preview\"><img src=\"$api$code\" /></div>");
+	$markdownDot = "";
+	if($engine == "markdown") {
+		$engine = "gv:dot";
+		$code = urlencode($_GET['markdown-dot']);
+		$markdownDot = '<p id="tog" onclick="togClick();">查看dot源码</p>';
+	}
+	$api = $config['api'] . "?cht=" . $engine . "&chl=";
+	print("<div id=\"preview\"><img src=\"$api$code\" />$markdownDot</div>");
 }
 ?>
 </div>
@@ -116,15 +136,17 @@ if(isset($_GET['submit']))
 	input.parentElement.parentElement.appendChild(aceDiv);
 
 	var engine = document.getElementById('engine');
+	var engineName = engine.value;
 	var aceEditor = ace.edit("ace_editor");
 	engine.onchange = function () {
-		console.log(engine.value);
 		if(engine.value == "ditaa") {
 			aceEditor.getSession().setMode("ace/mode/asciidoc");
+		} else if(engine.value == "markdown") {
+			aceEditor.getSession().setMode("ace/mode/markdown");
 		}else {
 			aceEditor.getSession().setMode("ace/mode/dot");
 		}
-
+		engineName = engine.value;
 	}
 	aceEditor.setTheme("ace/theme/github");
 	aceEditor.setValue(input.value);
@@ -132,9 +154,88 @@ if(isset($_GET['submit']))
 	aceEditor.getSession().setUseWrapMode(true);
 	aceEditor.setFontSize("18px");
 
+	var showdot = document.createElement('div');
+	showdot.id = 'show-dot-code';
+	showdot.style.display = 'none';
+	document.getElementById('preview').appendChild(showdot);
+	$('#show-dot-code').html('<pre>' + markdown2dot(aceEditor.getValue()) + '</pre>');
+
 	aceEditor.getSession().on("change", function(e) {
 		input.value = aceEditor.getValue();
+		if(engineName == "markdown") {
+			dotcode = markdown2dot(aceEditor.getValue());
+			$("#markdown-dot").val(dotcode);
+			$('#show-dot-code').html('<pre>' + dotcode + '</pre>');
+		}
 	});
+
+	function markdown2dot(markdown) {
+		marked.setOptions({
+			sanitize: true,
+			breaks: true
+		});
+		html = marked(markdown);
+		html = $(html);
+		nodes = new Array();
+		edges = new Array();
+		id = 1;
+		html.each(function() {
+			console.log($(this));
+			var tagName = $(this).get(0).tagName;
+			var label = $(this).text().replace(/\r?\n/, '');
+			var node = tagName + "_" + id;
+			var level = 0;
+			shape = "box";
+			switch(tagName) {
+				case "H1": level = 1;color = "tomato"; shape = "rectangle";break;
+				case "H2": level = 2;color = "yellow";break;
+				case "H3": level = 3;color = "lightblue2";break;
+				case "H4": level = 4;color = "whitesmoke";break;
+				case "H5": level = 5;color = "yellowgreen";break;
+				case "H6": level = 6;color = "skyblue";break;
+				default: color = "olive";
+			}
+			expectTag = "H" + (level-1);
+			var prev = "";
+			item = $(this);
+			newid = id;
+			while(true) {
+				var prevItem = item.prev().get(0);
+				if(!prevItem) {break;}
+				newid--;
+				var prevTag = prevItem.tagName;
+				if(prevTag == expectTag) {
+					prev = expectTag + "_" + newid;
+					break;
+				}
+				item = item.prev();
+			}
+
+			if(label) {
+				id++;
+				console.log("LOG: \"" + prev + "\"#\"" + node + '"');
+				nodes.push('"' + node + '"[label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
+			}
+			if(prev) {
+				edges.push('"' + prev + '" -> "' + node + '";');	
+			}
+		});
+		var dot = 'digraph G{\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';		
+		return(dot);
+	}
+
+	function togClick() {
+		var tog = document.getElementById('tog');
+		var showdot = document.getElementById('show-dot-code');
+		if(showdot.style.display == "none") {
+			showdot.style.display = "block";
+			tog.innerText = "隐藏dot源码";
+		} else {
+			showdot.style.display = "none";
+			tog.innerText = "显示dot源码";
+		}
+	
+	}
 </script>
 </body>
 </html>
