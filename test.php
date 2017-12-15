@@ -220,7 +220,7 @@ if(isset($_GET['submit']))
 				edges.push('"' + prev + '" -> "' + node + '";');	
 			}
 		});
-		var dot = 'digraph G{\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';		
+		var dot = 'digraph G{rankdir="LR";\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';		
 		return(dot);
 	}
 
