@@ -180,7 +180,6 @@ if(isset($_GET['submit']))
 		edges = new Array();
 		id = 1;
 		html.each(function() {
-			console.log($(this));
 			var tagName = $(this).get(0).tagName;
 			var label = $(this).text().replace(/\r?\n/, '');
 			var node = tagName + "_" + id;
@@ -213,7 +212,6 @@ if(isset($_GET['submit']))
 
 			if(label) {
 				id++;
-				console.log("LOG: \"" + prev + "\"#\"" + node + '"');
 				nodes.push('"' + node + '"[label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
 			}
 			if(prev) {
