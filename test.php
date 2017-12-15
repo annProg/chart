@@ -195,7 +195,7 @@ if(isset($_GET['submit']))
 				case "H4": level = 4;color = "whitesmoke";break;
 				case "H5": level = 5;color = "yellowgreen";break;
 				case "H6": level = 6;color = "skyblue";break;
-				default: color = "olive";
+				default: color = "mintcream";
 			}
 			expectTag = "H" + (level-1);
 			var prev = "";
