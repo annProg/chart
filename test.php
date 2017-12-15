@@ -218,10 +218,10 @@ if(isset($_GET['submit']))
 			}
 			if(label) {
 				id++;
-				nodes.push('"' + node + '"[color="' + color + '",label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
+				nodes.push(node + '[color="' + color + '",label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
 			}
 			if(prev) {
-				edges.push('"' + prev + '" -> "' + node + '";');	
+				edges.push(prev + '->' + node + ';');	
 			}
 		});
 		var dot = 'digraph G{rankdir="LR";\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';		
