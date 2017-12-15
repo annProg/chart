@@ -178,7 +178,10 @@ if(isset($_GET['submit']))
 		html = $(html);
 		nodes = new Array();
 		edges = new Array();
-		id = 1;
+		id = 0;
+
+		colorbase = new Array("tomato", "yellow", "whitesmoke", "yellowgreen", "skyblue", "mintcream");
+		colors = new Array(colorbase.sort(), colorbase, colorbase.reverse(), colorbase, colorbase, colorbase);
 		html.each(function() {
 			var tagName = $(this).get(0).tagName;
 			var label = $(this).text().replace(/\r?\n/, '');
@@ -210,6 +213,9 @@ if(isset($_GET['submit']))
 				item = item.prev();
 			}
 
+			if(level > 1) {
+				color = colors[level%colors.length][newid%colorbase.length];
+			}
 			if(label) {
 				id++;
 				nodes.push('"' + node + '"[label="' + label + '",fillcolor="' + color + '", style="filled", shape="' + shape + '"];');
