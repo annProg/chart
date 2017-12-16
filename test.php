@@ -58,6 +58,7 @@ textarea {
 
 #show-dot-code {
 	text-align: left;
+	display: none;
 }
 </style>
 <title>Chart Api Test Tool</title>
@@ -69,6 +70,7 @@ textarea {
 <form method="GET" role="form" class="form-horizontal">
 <?php
 require 'config.php';
+require 'libs/markdownMindmap.class.php';
 /**
  * Usage:
  * File Name: test.php
@@ -83,10 +85,6 @@ if(isset($_GET['code']))
 {
 	$default_code = $_GET['code'];
 }
-if(isset($_GET['markdown-dot']))
-{
-	$default_dot = $_GET['markdown-dot'];
-}
 if(isset($_GET['engine']))
 {
 	$selected = $_GET['engine'];
@@ -94,7 +92,6 @@ if(isset($_GET['engine']))
 
 $engines = $config['engine'];
 $html = '<textarea id="code" name="code">' . $default_code . '</textarea>';
-$html .= '<textarea id="markdown-dot" name="markdown-dot" style="display:none">' . $default_dot . '</textarea>';
 $html .= '<br>';
 $html .= '<select id="engine" name="engine">';
 
@@ -119,9 +116,9 @@ if(isset($_GET['submit']))
 	$code = urlencode($_GET['code']);
 	$markdownDot = "";
 	if($engine == "markdown") {
-		$engine = "gv:dot";
-		$code = urlencode($_GET['markdown-dot']);
-		$markdownDot = '<p id="tog" onclick="togClick();">查看dot源码</p>';
+		$md = new markdownMindmap($_GET['code']);
+		$markdownDot = '<p id="tog" onclick=togClick()>显示dot源码</p>' .
+			'<div id="show-dot-code"><pre>' . $md->markdown2dot() . '</pre></div>';
 	}
 	$api = $config['api'] . "?cht=" . $engine . "&chl=";
 	print("<div id=\"preview\"><img src=\"$api$code\" />$markdownDot</div>");
@@ -154,19 +151,8 @@ if(isset($_GET['submit']))
 	aceEditor.getSession().setUseWrapMode(true);
 	aceEditor.setFontSize("18px");
 
-	var showdot = document.createElement('div');
-	showdot.id = 'show-dot-code';
-	showdot.style.display = 'none';
-	document.getElementById('preview').appendChild(showdot);
-	$('#show-dot-code').html('<pre>' + markdown2dot(aceEditor.getValue()) + '</pre>');
-
 	aceEditor.getSession().on("change", function(e) {
 		input.value = aceEditor.getValue();
-		if(engineName == "markdown") {
-			dotcode = markdown2dot(aceEditor.getValue());
-			$("#markdown-dot").val(dotcode);
-			$('#show-dot-code').html('<pre>' + dotcode + '</pre>');
-		}
 	});
 
 	function markdown2dot(markdown) {
@@ -231,12 +217,12 @@ if(isset($_GET['submit']))
 	function togClick() {
 		var tog = document.getElementById('tog');
 		var showdot = document.getElementById('show-dot-code');
-		if(showdot.style.display == "none") {
-			showdot.style.display = "block";
-			tog.innerText = "隐藏dot源码";
-		} else {
+		if(showdot.style.display == "block") {
 			showdot.style.display = "none";
 			tog.innerText = "显示dot源码";
+		} else {
+			showdot.style.display = "block";
+			tog.innerText = "隐藏dot源码";
 		}
 	
 	}

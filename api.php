@@ -6,6 +6,8 @@
  **/
 
 require 'config.php';
+require 'libs/markdownMindmap.class.php';
+
 foreach ( $config['out'] as $v ) {
 	if(!file_exists($v)) {
 		mkdir($v, 0755);
@@ -154,6 +156,11 @@ function ditaa($arr) {
 }
 
 $api = get_args();
+if($api['cht'] == "markdown") {
+	$md = new markdownMindmap($api['chl']);
+	$api['chl'] = $md->markdown2dot();
+	$api['cht'] = "gv:dot";
+}
 write_code($api);
 
 $arr = explode(':', $api['cht']);
