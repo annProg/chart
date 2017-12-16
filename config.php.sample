@@ -20,7 +20,13 @@ $config['engine'] = array("gv"=>"Graphviz",
 	"gv:circo"=>"Circo", 
 	"gp"=>"Gnuplot", 
 	"ditaa"=>"Ditaa",
-	"markdown"=>"Markdown");
+	"markdown"=>"Markdown",
+	"markdown:neato"=>"Markdown:neato",
+	"markdown:fdp"=>"Markdown:fdp",
+	"markdown:sfdp"=>"Markdown:sfdp",
+	"markdown:twopi"=>"Markdown:twopi",
+	"markdown:circo"=>"Markdown:circo"
+);
 $config['imgtype'] = array("png", "gif", "jpeg");
 // 代码保存路径
 $config['out']['code'] = "./code/";

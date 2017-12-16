@@ -156,14 +156,15 @@ function ditaa($arr) {
 }
 
 $api = get_args();
-if($api['cht'] == "markdown") {
+$arr = explode(':', $api['cht']);
+if($arr[0] == "markdown") {
 	$md = new markdownMindmap($api['chl']);
 	$api['chl'] = $md->markdown2dot();
-	$api['cht'] = "gv:dot";
+	$arr[0] = "gv";
 }
+
 write_code($api);
 
-$arr = explode(':', $api['cht']);
 switch ($arr[0]) {
 	case "gv":
 		if(array_key_exists("1", $arr)) {

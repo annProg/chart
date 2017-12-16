@@ -12,7 +12,7 @@ class markdownMindmap {
 	private $color = "mintcream";
 	private $colorH1 = "tomato";
 	private $shape = "box";
-	private $shapeH1 = "ellipse";
+	private $shapeH1 = "circle";
 	private $colorbase = array("tomato", "yellow", "skyblue", "mintcream", "whitesmoke");
 	private $colorMatrix = array();
 
@@ -100,12 +100,12 @@ class markdownMindmap {
 				default: $color = $this->colorMatrix[$level%$matrixLen][$j%$baseLen]; $shape = $this->shape;
 			}
 
-			$fontsize = 21 - 3*$level;
+			$fontsize = 19 - 3*$level;
 			if($fontsize < 8) $fontsize = 8;
 
 			if($label) {
 				$n = $node . '[label="' . $label . '",color="' . $color . '",fontsize="' . $fontsize .
-					'",fillcolor="' . $color . '", style="filled", shape="' . $shape . '"];';
+					'",fillcolor="' . $color . '", style="filled,rounded", shape="' . $shape . '"];';
 				array_push($nodes, $n );	
 			}
 
