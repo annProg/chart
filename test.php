@@ -56,7 +56,13 @@ textarea {
 	text-align: center;
 }
 
+#preview img {
+	max-width: 100%;
+	max-height: 90%;
+}
+
 #show-dot-code {
+	width: 100%;
 	text-align: left;
 	display: none;
 }
