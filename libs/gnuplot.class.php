@@ -8,13 +8,11 @@
  **/
 require 'plot.class.php';
 
-class graphviz extends plot {
+class gnuplot extends plot {
 	function render() {
 		$p = parent::render();
 		if($p) return($p);
-		$engine = end(explode(":", $this->cht));
-		if($engine == "gv") $engine = "dot";
-		exec("$engine -T$this->chof $this->ifile -o $this->ofile", $out, $res);
+		exec("gnuplot -e \"set term $this->chof;set output '$this->ofile'\" $this->ifile", $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}

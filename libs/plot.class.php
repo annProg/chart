@@ -14,13 +14,19 @@ abstract class plot {
 	protected $chl = "";     //source code of graph description language
 	protected $cht = "";     //plot engine
 	protected $chof = "png";    //image type
-	protected $cacheCode = "../cache/code/";
-	protected $cacheImg = "../cache/images/";
+	protected $cacheDirCode = "cache/code/";
+	protected $cacheDirImg = "cache/images/";
+	protected $ifile = "";
+	protected $ofile = "";
+	protected $errno = 0;
+	protected $code = "";   //real code for writeCode
 
 	function __construct($chl,$cht,$chof="png") {
 		$this->chl = $chl;
 		$this->cht = $cht;
-		$this->chof = $chof;
+		if($chof != "") {
+			$this->chof = $chof;
+		}
 	}
 
 	function setChl($chl) {
@@ -47,20 +53,20 @@ abstract class plot {
 		return $this->chof;
 	}
 	
-	function setCacheCode($cacheCode) {
-		$this->cacheCode = $cacheCode;
+	function setCacheDirCode($cacheDirCode) {
+		$this->cacheDirCode = $cacheDirCode;
 	}
 	
-	function getCacheCode() {
-		return $this->cacheCode;
+	function getCacheDirCode() {
+		return $this->cacheDirCode;
 	}
 	
-	function setCacheImg($cacheImg) {
-		$this->chof = $cacheImg;
+	function setCacheDirImg($cacheDirImg) {
+		$this->cacheDirImg = $cacheDirImg;
 	}
 	
-	function getCacheImg() {
-		return $this->cacheImg;
+	function getCacheDirImg() {
+		return $this->cacheDirImg;
 	}
 	
 	function ofileName() {
@@ -68,12 +74,20 @@ abstract class plot {
 		return md5($this->chl) . $flag;
 	}
 
-	function codeFilename() {
-		return $this->ofileName() . ".txt";
+	function setIfile() {
+		$this->ifile = $this->cacheDirCode . $this->ofileName() . ".txt";
+		if(!file_exists($this->cacheDirCode)) {
+			mkdir($this->cacheDirCode, 0755, true);
+		}
+		return $this->ifile;
 	}
 
-	function imgFilename() {
-		return $this->ofileName() . "." . $this->chof;	
+	function setOfile() {
+		$this->ofile = $this->cacheDirImg . $this->ofileName() . "." . $this->chof;
+		if(!file_exists($this->cacheDirImg)) {
+			mkdir($this->cacheDirImg, 0755, true);
+		}
+		return $this->ofile;	
 	}
 
 	/**
@@ -90,18 +104,34 @@ abstract class plot {
 		$code = str_replace("&quot;", "\"", $code);
 		$code = str_replace("<br />", "\n", $code);
 
-		$filepath = $this->cacheCode . $this->codeFilename();
-		$file = fopen($filepath, "w");
-		fwrite($file, "$this->chl");
+		$file = fopen($this->ifile, "w");
+		fwrite($file, $code);
 		fclose($file);
-		return($filepath);
+		return($this->ifile);
 	}
 
 	function render() {
+		$this->setIfile();
+		$this->setOfile();
 		$this->writeCode();
-		$imgpath = $this->cacheImg . $this->imgFilename();
-		if(file_exists($imgpath)) {
-			return(array("imgpath"=>$imgpath, "imgtype"=>$this->chof));
+
+		if(file_exists($this->ofile)) {
+			return $this->result();
 		}
+		return false;
+	}
+
+	function result() {
+		return(array(
+			"errno" => $this->errno,
+			"imgpath" => $this->ofile,
+			"imgtype" => $this->chof,
+			"codepath" => $this->ifile
+		));
+	}
+
+	function onerr() {
+		$this->errno = 100;
+		$this->ofile = "";
 	}
 }
