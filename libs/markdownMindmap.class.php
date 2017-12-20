@@ -7,8 +7,9 @@
  * Created Time: 2017-12-16 02:44:03
  **/
 
-class markdownMindmap {
-	private $markdown = "";
+require 'plot.class.php';
+
+class markdownMindmap extends plot {
 	private $color = "mintcream";
 	private $colorH1 = "tomato";
 	private $shape = "box";
@@ -16,23 +17,19 @@ class markdownMindmap {
 	private $colorbase = array("tomato", "yellow", "skyblue", "mintcream", "whitesmoke");
 	private $colorMatrix = array();
 
-	function __construct($markdown, $colorbase = "") {
-		$this->markdown = $markdown;
-		if(is_array($colorbase)) {
-			$this->colorbase = $colorbase;
-		}
+	function __construct($chl,$cht,$chof="png") {
+		parent::__construct($chl,$cht,$chof);
 		$this->colorMatrix = array(
 			$this->colorbase, array_reverse($this->colorbase), $this->colorbase, 
 			$this->colorbase, array_reverse($this->colorbase),$this->colorbase
 		);
 	}
-
-	function set($markdown) {
-		$this->markdown = $markdown;
+	function setColorBase($colorbase) {
+		$this->colorbase = $colorbase;
 	}
-	
-	function get($markdown) {
-		return $this->markdown;
+
+	function setColorMatrix($matrix) {
+		$this->colorMatrix = $matrix;
 	}
 
 	function setColor($color) {
@@ -51,12 +48,8 @@ class markdownMindmap {
 		$this->shapeH1 = $shape;
 	}
 
-	function setColorMatrix($matrix) {
-		$this->colorMatrix = $matrix;
-	}
-
 	function markdown2dot() {
-		$md = preg_replace("/\r\n?/", "\n", $this->markdown);
+		$md = preg_replace("/\r\n?/", "\n", $this->chl);
 		$arr = explode("\n", $md);
 		$arr = array_filter($arr, function($k) {
 			$v = str_replace(" ", "", $k);
@@ -64,7 +57,6 @@ class markdownMindmap {
 			return true;
 		});
 		$arr = array_values($arr);
-
 
 		$len = count($arr);
 		$nodes = array();
@@ -74,7 +66,8 @@ class markdownMindmap {
 
 		for($i = 0; $i<$len; $i++)
 		{
-			preg_match('/^(#+?)\s+(.*)$/', $arr[$i], $matches);
+			$m = preg_match('/^(#+?)\s+(.*)$/', $arr[$i], $matches);
+			if(!$m) continue;
 			$level = strlen($matches[1]);
 			$label = $matches[2];
 			$tag = "H" . $level;
@@ -116,5 +109,22 @@ class markdownMindmap {
 		}
 		$dot = 'digraph G{rankdir="LR";' . "\n" . implode("\n", $nodes) . "\n" . implode("\n", $edges) . "\n}";
 		return($dot);
+	}
+
+	function writeCode() {
+		$this->chl = $this->markdown2dot();
+		parent::writeCode();
+	}
+
+	function render() {
+		$p = parent::render();
+		if($p) return($p);
+		$engine = end(explode(":", $this->cht));
+		if($engine == "markdown") $engine = "dot";
+		exec("$engine -T$this->chof $this->ifile -o $this->ofile", $out, $res);
+		if($res != 0) {
+			$this->onerr();
+		}
+		return $this->result();
 	}
 }
