@@ -94,6 +94,7 @@ abstract class plot {
 	 * dump $this->chl
 	 */
 	function writeCode() {
+		$code = $this->chl;
 		$encode = mb_detect_encoding($this->chl, array("ASCII","UTF-8","GB2312", "GBK", "EUC-CN"));
 		if($encode != "UTF-8") { 
 			$code = iconv("$encode", "UTF-8", $this->chl);

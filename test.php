@@ -122,7 +122,7 @@ if(isset($_GET['submit']))
 	$code = urlencode($_GET['code']);
 	$markdownDot = "";
 	if($engine == "markdown") {
-		$md = new markdownMindmap($_GET['code']);
+		$md = new markdownMindmap($_GET['code'], $_GET['engine']);
 		$markdownDot = '<p id="tog" onclick=togClick()>显示dot源码</p>' .
 			'<div id="show-dot-code"><pre>' . $md->markdown2dot() . '</pre></div>';
 	}

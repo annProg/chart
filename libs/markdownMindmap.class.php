@@ -119,8 +119,12 @@ class markdownMindmap extends plot {
 	function render() {
 		$p = parent::render();
 		if($p) return($p);
-		$engine = end(explode(":", $this->cht));
-		if($engine == "markdown") $engine = "dot";
+		$engine = explode(":", $this->cht);
+		if(count($engine) == 1) {
+			$engine = "dot";
+		} else {
+			$engine = $engine[1];
+		}
 		exec("$engine -T$this->chof $this->ifile -o $this->ofile", $out, $res);
 		if($res != 0) {
 			$this->onerr();
