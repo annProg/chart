@@ -16,6 +16,7 @@ class markdownMindmap extends plot {
 	private $shapeH1 = "circle";
 	private $colorbase = array("tomato", "yellow", "skyblue", "mintcream", "whitesmoke");
 	private $colorMatrix = array();
+	private $dotOptions = 'digraph G{rankdir="LR";pack=true;overlap=false;splines=true;';
 
 	function __construct($chl,$cht,$chof="png") {
 		parent::__construct($chl,$cht,$chof);
@@ -46,6 +47,10 @@ class markdownMindmap extends plot {
 
 	function setShapeH1($shape) {
 		$this->shapeH1 = $shape;
+	}
+
+	function setDotOptions($dot) {
+		$this->dotOptions = $dot;
 	}
 
 	function markdown2dot() {
@@ -107,7 +112,7 @@ class markdownMindmap extends plot {
 			}
 
 		}
-		$dot = 'digraph G{rankdir="LR";' . "\n" . implode("\n", $nodes) . "\n" . implode("\n", $edges) . "\n}";
+		$dot = $this->dotOptions . "\n" . implode("\n", $nodes) . "\n" . implode("\n", $edges) . "\n}";
 		return($dot);
 	}
 
