@@ -114,8 +114,8 @@ class markdownMindmap extends plot {
 				default: $shape = $this->shape;
 			}
 
-			$fontsize = 19 - 4*$level;
-			if($fontsize < 8) $fontsize = 8;
+			$fontsize = 24 - 4*$level;
+			if($fontsize < 10) $fontsize = 10;
 
 			if($label) {
 				$n = $node . '[label="' . $label . '",color="' . $color . '",fontsize="' . $fontsize .
