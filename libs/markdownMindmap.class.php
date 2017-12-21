@@ -10,13 +10,15 @@
 require 'plot.class.php';
 
 class markdownMindmap extends plot {
-	private $color = "mintcream";
-	private $colorH1 = "tomato";
-	private $shape = "box";
-	private $shapeH1 = "circle";
-	private $colorbase = array("tomato", "yellow", "skyblue", "mintcream", "whitesmoke");
+	private $color = "gainsboro";
+	private $fillcolor = "limegreen";
+	private $colorH1 = "lightgreen";
+	private $shape = "signature";
+	private $shapeH1 = "ellipse";
+	private $shapeH2 = "box";
+	private $colorbase = array("tomato", "yellow", "skyblue", "tan", "thistle", "palegreen", "darkseagreen");
 	private $colorMatrix = array();
-	private $dotOptions = 'digraph G{rankdir="LR";pack=true;overlap=false;splines=true;';
+	private $dotOptions = 'digraph G{rankdir="LR";pack=true;overlap=false;splines=true;edge[color="silver"];';
 
 	function __construct($chl,$cht,$chof="png") {
 		parent::__construct($chl,$cht,$chof);
@@ -37,6 +39,10 @@ class markdownMindmap extends plot {
 		$this->color = $color;
 	}
 
+	function setFillColor($color) {
+		$this->fillcolor = $color;
+	}
+
 	function setColorH1($color) {
 		$this->colorH1 = $color;
 	}
@@ -47,6 +53,10 @@ class markdownMindmap extends plot {
 
 	function setShapeH1($shape) {
 		$this->shapeH1 = $shape;
+	}
+
+	function setShapeH2($shape) {
+		$this->shapeH2 = $shape;
 	}
 
 	function setDotOptions($dot) {
@@ -92,23 +102,29 @@ class markdownMindmap extends plot {
 			}
 
 			if($j < 0) $j = 0;
-			
+
+			$color = $this->color;
+			$fillcolor = $this->colorMatrix[$level%$matrixLen][$j%$baseLen];
+			$edgeOption = '';
 			switch($tag) {
-				case "H1": $color = $this->colorH1; $shape = $this->shapeH1;break;
-				default: $color = $this->colorMatrix[$level%$matrixLen][$j%$baseLen]; $shape = $this->shape;
+				case "H1": $fillcolor = $this->fillcolor; $color = $this->colorH1; $shape = $this->shapeH1;break;
+				case "H2": $shape = $this->shapeH2;
+					$edgecolor = $this->colorMatrix[rand(0,$matrixLen-1)][rand(0, $baseLen-1)];
+					$edgeOption = '[style="tapered",penwidth=6,arrowhead=none,color="' . $edgecolor . '"]';break;
+				default: $shape = $this->shape;
 			}
 
-			$fontsize = 19 - 3*$level;
+			$fontsize = 19 - 4*$level;
 			if($fontsize < 8) $fontsize = 8;
 
 			if($label) {
 				$n = $node . '[label="' . $label . '",color="' . $color . '",fontsize="' . $fontsize .
-					'",fillcolor="' . $color . '", style="filled,rounded", shape="' . $shape . '"];';
+					'",fillcolor="' . $fillcolor . '", style="filled,rounded", shape="' . $shape . '"];';
 				array_push($nodes, $n );	
 			}
 
 			if($prev) {
-				array_push($edges, $prev . '->' . $node);
+				array_push($edges, $prev . '->' . $node . $edgeOption . ';');
 			}
 
 		}
