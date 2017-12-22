@@ -26,9 +26,6 @@ function get_args() {
 			$args['chof'] = $_GET['chof'];
 		else
 			$args['chof'] = "png";
-		if(!in_array($args['chof'], $config['imgtype'])) {
-			$args['chof'] = "png";
-		}
 	} elseif(isset($_POST['cht']) && isset($_POST['chl'])) {
 		$args['cht'] = $_POST['cht'];
 		$args['chl'] = urldecode($_POST['chl']);
@@ -62,6 +59,8 @@ switch ($cht[0]) {
 		$plot = new gnuplot($args['chl'], $args['cht'], $args['chof']);break;
 	case "markdown":
 		$plot = new markdownMindmap($args['chl'], $args['cht'], $args['chof']);break;
+	case "blockdiag":
+		$plot = new blockdiag($args['chl'], $args['cht'], $args['chof']);break;
 	defualt:
 		error();
 }
@@ -75,7 +74,7 @@ if($ret['errno'] != 0 && $method == "GET") {
 	$imgpath = $ret['imgpath'];
 }
 
-if($method == "GET") {
+if($method == "GET" && in_array($ret['imgtype'], $config['imgtype'])) {
 	$imgstrout = "image$imgtype(imagecreatefrom$imgtype('$imgpath'));";
 	header("Content-Type: image/$imgtype; charset=UTF-8");
 	eval($imgstrout);

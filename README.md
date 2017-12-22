@@ -17,6 +17,19 @@
 
 git pull 拉取代码到web目录，执行`cp config.php.sample config.php` ，根据实际情况修改 `config.php`
 
+### blockdiag
+```
+pip install blockdiag
+```
+如需使用中文，请配置中文字体，参考配置
+```
+cp -r fonts/* /usr/share/fonts
+cat > /home/www/.blockdiagrc <<EOF
+[blockdiag]
+fontpath = /usr/share/fonts/wqy-microhei/wqy-microhei.ttc
+EOF
+```
+
 ## 在线演示
 https://api.annhe.net/gv/test.php
 
