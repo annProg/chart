@@ -13,8 +13,9 @@ class markdownMindmap extends plot {
 	private $color = "gainsboro";
 	private $fillcolor = "limegreen";
 	private $colorH1 = "lightgreen";
-	private $shape = "signature";
-	private $shapeH1 = "ellipse";
+	private $shape = "ellipse";
+	//private $shape = "signature";
+	private $shapeH1 = "circle";
 	private $shapeH2 = "box";
 	private $colorbase = array("tomato", "yellow", "skyblue", "tan", "thistle", "palegreen", "darkseagreen");
 	private $colorMatrix = array();
