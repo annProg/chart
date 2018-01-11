@@ -10,16 +10,21 @@
 require 'plot.class.php';
 
 class markdownMindmap extends plot {
-	private $color = "gainsboro";
-	private $fillcolor = "limegreen";
+	private $edgecolor = "limegreen";
+	private $fontname = "WenQuanYi Micro Hei";
+	private $fontcolor = "white";
+	private $bgcolor = "#012b37";
+	private $rankdir = "LR";
+	private $pack = "true";
+	private $overlap = "false";
+	private $splines = "curved";
 	private $colorH1 = "lightgreen";
-	private $shape = "ellipse";
-	//private $shape = "signature";
-	private $shapeH1 = "circle";
+	private $shape = "plaintext";
+	private $shapeH1 = "ellipse";
 	private $shapeH2 = "box";
 	private $colorbase = array("tomato", "yellow", "skyblue", "tan", "thistle", "palegreen", "darkseagreen");
 	private $colorMatrix = array();
-	private $dotOptions = 'digraph G{rankdir="LR";pack=true;overlap=false;splines=true;edge[color="silver"];';
+	private $nodeStyle = "rounded";
 
 	function __construct($chl,$cht,$chof="png") {
 		parent::__construct($chl,$cht,$chof);
@@ -28,43 +33,30 @@ class markdownMindmap extends plot {
 			$this->colorbase, array_reverse($this->colorbase),$this->colorbase
 		);
 	}
-	function setColorBase($colorbase) {
-		$this->colorbase = $colorbase;
+
+	function __get($property_name) {
+		if(!isset($this->$property_name)) {
+			return(NULL);
+		}
+		return($this->$property_name);
+	}
+	
+	function __set($property_name, $value) {
+		if(!isset($this->$property_name)) {
+			return(false);
+		}
+		$this->$property_name = $value;
 	}
 
-	function setColorMatrix($matrix) {
-		$this->colorMatrix = $matrix;
-	}
-
-	function setColor($color) {
-		$this->color = $color;
-	}
-
-	function setFillColor($color) {
-		$this->fillcolor = $color;
-	}
-
-	function setColorH1($color) {
-		$this->colorH1 = $color;
-	}
-
-	function setShape($shape) {
-		$this->shape = $shape;
-	}
-
-	function setShapeH1($shape) {
-		$this->shapeH1 = $shape;
-	}
-
-	function setShapeH2($shape) {
-		$this->shapeH2 = $shape;
-	}
-
-	function setDotOptions($dot) {
-		$this->dotOptions = $dot;
+	function dotOptions() {
+		return 'digraph G{bgcolor="' . $this->bgcolor . '";rankdir="' . $this->rankdir . 
+			'";pack=' . $this->pack . ';overlap=' . $this->overlap . ';splines=' . $this->splines . 
+			';fontname="' . $this->fontname . '";node[fontname="' . $this->fontname . 
+			'";shape="' . $this->shape . '";style="' . $this->nodeStyle . '";fontcolor="' . $this->fontcolor . '"];';
 	}
 
 	function markdown2dot() {
+		$dotOptions = $this->dotOptions();
 		$md = preg_replace("/\r\n?/", "\n", $this->chl);
 		$arr = explode("\n", $md);
 		$arr = array_filter($arr, function($k) {
@@ -104,23 +96,22 @@ class markdownMindmap extends plot {
 
 			if($j < 0) $j = 0;
 
-			$color = $this->color;
-			$fillcolor = $this->colorMatrix[$level%$matrixLen][$j%$baseLen];
+			$edgecolor = $this->colorMatrix[$level%$matrixLen][$j%$baseLen];
 			$edgeOption = '';
 			switch($tag) {
-				case "H1": $fillcolor = $this->fillcolor; $color = $this->colorH1; $shape = $this->shapeH1;break;
-				case "H2": $shape = $this->shapeH2;
+				//case "H1": $shape = $this->shapeH1;break;
+				case "H2": //$shape = $this->shapeH2;
 					$edgecolor = $this->colorMatrix[rand(0,$matrixLen-1)][rand(0, $baseLen-1)];
-					$edgeOption = '[style="tapered",penwidth=6,arrowhead=none,color="' . $edgecolor . '"]';break;
+					$edgeOption = '[style="tapered",penwidth=12,arrowhead=none,color="' . $edgecolor . '"]';break;
 				default: $shape = $this->shape;
+					$edgeOption = '[penwidth=6, color="' . $edgecolor . '", dir=none]';
 			}
 
-			$fontsize = 24 - 4*$level;
+			$fontsize = 43 - 5*$level;
 			if($fontsize < 10) $fontsize = 10;
 
 			if($label) {
-				$n = $node . '[label="' . $label . '",color="' . $color . '",fontsize="' . $fontsize .
-					'",fillcolor="' . $fillcolor . '", style="filled,rounded", shape="' . $shape . '"];';
+				$n = $node . '[label="' . $label . '",fontsize="' . $fontsize . '",shape="' . $shape . '"];';
 				array_push($nodes, $n );	
 			}
 
@@ -129,7 +120,7 @@ class markdownMindmap extends plot {
 			}
 
 		}
-		$dot = $this->dotOptions . "\n" . implode("\n", $nodes) . "\n" . implode("\n", $edges) . "\n}";
+		$dot = $dotOptions . "\n" . implode("\n", $nodes) . "\n" . implode("\n", $edges) . "\n}";
 		return($dot);
 	}
 
