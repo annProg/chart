@@ -20,8 +20,7 @@ class markdownMindmap extends plot {
 	private $splines = "curved";
 	private $colorH1 = "lightgreen";
 	private $shape = "plaintext";
-	private $shapeH1 = "ellipse";
-	private $shapeH2 = "box";
+	private $penwidth = 6;
 	private $colorbase = array("tomato", "yellow", "skyblue", "tan", "thistle", "palegreen", "darkseagreen");
 	private $colorMatrix = array();
 	private $nodeStyle = "rounded";
@@ -52,7 +51,8 @@ class markdownMindmap extends plot {
 		return 'digraph G{bgcolor="' . $this->bgcolor . '";rankdir="' . $this->rankdir . 
 			'";pack=' . $this->pack . ';overlap=' . $this->overlap . ';splines=' . $this->splines . 
 			';fontname="' . $this->fontname . '";node[fontname="' . $this->fontname . 
-			'";shape="' . $this->shape . '";style="' . $this->nodeStyle . '";fontcolor="' . $this->fontcolor . '"];';
+			'";shape="' . $this->shape . '";style="' . $this->nodeStyle . '";fontcolor="' . 
+			$this->fontcolor . '"];edge[concentrate=true,penwidth=' . $this->penwidth . ',dir=none]';
 	}
 
 	function markdown2dot() {
@@ -102,16 +102,16 @@ class markdownMindmap extends plot {
 				//case "H1": $shape = $this->shapeH1;break;
 				case "H2": //$shape = $this->shapeH2;
 					$edgecolor = $this->colorMatrix[rand(0,$matrixLen-1)][rand(0, $baseLen-1)];
-					$edgeOption = '[style="tapered",penwidth=12,arrowhead=none,color="' . $edgecolor . '"]';break;
+					$edgeOption = '[dir=forward,style="tapered",penwidth=12,arrowhead=none,color="' . $edgecolor . '"]';break;
 				default: $shape = $this->shape;
-					$edgeOption = '[penwidth=6, color="' . $edgecolor . '", dir=none]';
+					$edgeOption = '[color="' . $edgecolor . '"]';
 			}
 
 			$fontsize = 43 - 5*$level;
 			if($fontsize < 10) $fontsize = 10;
 
 			if($label) {
-				$n = $node . '[label="' . $label . '",fontsize="' . $fontsize . '",shape="' . $shape . '"];';
+				$n = $node . '[label="' . $label . '",fontsize="' . $fontsize . '"];';
 				array_push($nodes, $n );	
 			}
 
