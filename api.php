@@ -72,13 +72,17 @@ switch ($cht[0]) {
 }
 
 $ret = $plot->render();
-if($ret['errno'] != 0 && $method == "GET") {
+if($ret['errno'] != 0) {
 	$imgpath = $config['error'];
 	$imgtype = "png";	
+	$ret['imgpath'] = $imgpath;
 } else {
 	$imgtype = $ret['imgtype'];
 	$imgpath = $ret['imgpath'];
 }
+
+$ret['imgpath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['imgpath']);
+$ret['codepath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['codepath']);
 
 if($method == "GET" && in_array($ret['imgtype'], $config['imgtype'])) {
 	$imgstrout = "image$imgtype(imagecreatefrom$imgtype('$imgpath'));";
