@@ -15,6 +15,7 @@ function error() {
 }
 
 $method = "GET";
+$inajax = false;
 function get_args() {
 	global $config;
 	global $method;
@@ -35,6 +36,11 @@ function get_args() {
 			$args['chof'] = $_POST['chof'];
 		else
 			$args['chof'] = "png";
+
+		if(isset($_POST['inajax']) && $_POST['inajax'] == 1) {
+			global $inajax;
+			$inajax = true;
+		}
 	} else {
 		error();
 	}
@@ -78,6 +84,8 @@ if($method == "GET" && in_array($ret['imgtype'], $config['imgtype'])) {
 	$imgstrout = "image$imgtype(imagecreatefrom$imgtype('$imgpath'));";
 	header("Content-Type: image/$imgtype; charset=UTF-8");
 	eval($imgstrout);
+} elseif($inajax == true) {
+	die('<img src="//' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/' . $ret['imgpath'] . '"/>');
 } else {
 	die(json_encode($ret));
 }
