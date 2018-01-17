@@ -30,6 +30,16 @@ fontpath = /usr/share/fonts/wqy-microhei/wqy-microhei.ttc
 EOF
 ```
 
+### CORS支持
+Nginx增加如下配置
+
+```
+add_header Access-Control-Allow-Origin *;
+add_header Access-Control-Allow-Methods POST,OPTIONS;
+add_header Access-Control-Allow-Headers Content-Type;
+```
+
+
 ## 在线演示
 https://api.annhe.net/gv/test.php
 
