@@ -29,44 +29,18 @@ abstract class plot {
 		}
 	}
 
-	function setChl($chl) {
-		$this->chl = $chl;
+	function __get($property_name) {
+		if(!isset($this->$property_name)) {
+			return(NULL);
+		}
+		return($this->$property_name);
 	}
 	
-	function getChl() {
-		return $this->chl;
-	}
-	
-	function setCht($cht) {
-		$this->cht = $cht;
-	}
-	
-	function getCht() {
-		return $this->cht;
-	}
-	
-	function setChof($chof) {
-		$this->chof = $chof;
-	}
-	
-	function getChof() {
-		return $this->chof;
-	}
-	
-	function setCacheDirCode($cacheDirCode) {
-		$this->cacheDirCode = $cacheDirCode;
-	}
-	
-	function getCacheDirCode() {
-		return $this->cacheDirCode;
-	}
-	
-	function setCacheDirImg($cacheDirImg) {
-		$this->cacheDirImg = $cacheDirImg;
-	}
-	
-	function getCacheDirImg() {
-		return $this->cacheDirImg;
+	function __set($property_name, $value) {
+		if(!isset($this->$property_name)) {
+			return(false);
+		}
+		$this->$property_name = $value;
 	}
 	
 	function ofileName() {
