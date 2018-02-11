@@ -22,6 +22,7 @@ $config['engine'] = array("gv"=>"Graphviz",
 	"gp"=>"Gnuplot", 
 	"ditaa"=>"Ditaa",
 	"blockdiag"=>"Blockdiag",
+	"radar"=>"Radar Chart",
 	"markdown"=>"Markdown",
 	"markdown:dot"=>"Markdown:dot",
 	"markdown:neato"=>"Markdown:neato",
@@ -37,3 +38,4 @@ $config['out']['code'] = "./code/";
 $config['out']['img'] = "./img/";
 // 错误图片
 $config['error'] = "error.png";
+$config['node_path'] = "/usr/lib/node_modules";

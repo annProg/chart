@@ -67,6 +67,8 @@ switch ($cht[0]) {
 		$plot = new markdownMindmap($args['chl'], $args['cht'], $args['chof']);break;
 	case "blockdiag":
 		$plot = new blockdiag($args['chl'], $args['cht'], $args['chof']);break;
+	case "radar":
+		$plot = new radar($args['chl'], $args['cht'], $args['chof'], $config['node_path']);break;
 	defualt:
 		error();
 }
