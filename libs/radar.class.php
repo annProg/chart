@@ -34,9 +34,7 @@ process.stdout.write(`<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBo
 			stroke-width: .5;
 		}
 		.shape:hover { fill-opacity: .6; }
-		.shape.iphone { fill: #edc951; stroke: #edc951; }
-		.shape.nexus  { fill: #cc333f; stroke: #cc333f; }
-		.shape.galaxy { fill: #00a0b0; stroke: #00a0b0; }
+		\${style}
 	</style>
 	\${stringify(chart)}
 </svg>
@@ -64,6 +62,14 @@ EOF;
 		$this->$property_name = $value;
 	}
 
+	function random_color() {
+		$colors = array();
+		for($i = 0;$i<6;$i++) {
+			$colors[] = dechex(rand(0,15));
+		}
+		return "#" . implode('',$colors);
+	}
+
 	function csv2radar() {
 		$csv = preg_replace("/\r\n?/", "\n", $this->chl);
 		$arr = explode("\n", $csv);
@@ -84,7 +90,8 @@ EOF;
 			$co .= "c" . $k . ":" . "'" . $v . "',";
 		}
 		$co .= "}";
-
+	
+		$style = "var style='";
 		$data = "var data=[";
 		foreach($arr as $key => $val) {
 			$d = explode(",", $val);
@@ -93,11 +100,13 @@ EOF;
 				if($k == 0) continue;
 				$data .= "c" . $k . ":" . $v . ",";
 			}
+			$color = $this->random_color();
+			$style .= ".shape." . $d[0] . "{ fill:" . $color . "; stroke: " . $color . "; }  ";
 			$data .= "},";
 		}
 		$data .= "]";
-
-		return $this->js . "\n" . $co . "\n". $data . "\n" . $this->svg;
+		$style .= "'";
+		return $this->js . "\n" . $style . "\n" .  $co . "\n". $data . "\n" . $this->svg;
 	}
 
 	function writeCode() {
