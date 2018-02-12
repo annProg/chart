@@ -102,7 +102,7 @@ print_r($html);
 <input type="button" id="submit" name="submit" value="Submit" onclick=preview();>
 </form></div>
 <div style="text-align:center; margin:0 auto;" id="preview">
-	<img id="imgpreview" style="max-width:90%;" src="error.png" alt="chart" title="chart"/>
+	<img id="imgpreview" style="max-width:95%;" src="error.png" alt="chart" title="chart"/>
 </div>
 </div>
 <script>

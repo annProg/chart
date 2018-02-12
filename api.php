@@ -69,6 +69,8 @@ switch ($cht[0]) {
 		$plot = new blockdiag($args['chl'], $args['cht'], $args['chof']);break;
 	case "radar":
 		$plot = new radar($args['chl'], $args['cht'], $args['chof'], $config['node_path']);break;
+	case "msc":
+		$plot = new mscgen($args['chl'], $args['cht'], $args['chof']);break;
 	defualt:
 		error();
 }
