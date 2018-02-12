@@ -50,7 +50,7 @@ add_header Access-Control-Allow-Headers Content-Type;
 
 
 ## 在线演示
-https://api.annhe.net/gv/test.php
+https://api.annhe.net/gv/editor.php
 
 ## 使用方法
 使用GET或者POST方法，提供以下参数
