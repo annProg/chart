@@ -43,6 +43,7 @@ npm install virtual-dom-stringify
 使用racovimge
 ```
 pip install racovimge
+yum install librsvg2
 ```
 
 ### CORS支持
