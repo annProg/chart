@@ -39,6 +39,12 @@ npm install virtual-dom-stringify
 ### mscgen
 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可
 
+### book cover
+使用racovimge
+```
+pip install racovimge
+```
+
 ### CORS支持
 Nginx增加如下配置
 
@@ -191,3 +197,10 @@ msc {
 ```
 
 ![](https://api.annhe.net/gv/api.php?cht=msc&chl=%23+Fictional+client-server+protocol%0D%0Amsc+%7B%0D%0A+arcgradient+%3D+8%3B%0D%0A%0D%0A+a+%5Blabel%3D%22Client%22%5D%2Cb+%5Blabel%3D%22Server%22%5D%3B%0D%0A%0D%0A+a%3D%3Eb+%5Blabel%3D%22data1%22%5D%3B%0D%0A+a-xb+%5Blabel%3D%22data2%22%5D%3B%0D%0A+a%3D%3Eb+%5Blabel%3D%22data3%22%5D%3B%0D%0A+a%3C%3Db+%5Blabel%3D%22ack1%2C+nack2%22%5D%3B%0D%0A+a%3D%3Eb+%5Blabel%3D%22data2%22%2C+arcskip%3D%221%22%5D%3B%0D%0A+%7C%7C%7C%3B%0D%0A+a%3C%3Db+%5Blabel%3D%22ack3%22%5D%3B%0D%0A+%7C%7C%7C%3B%0D%0A%7D)
+
+book cover
+
+```
+标题
+作者
+```
