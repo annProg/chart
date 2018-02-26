@@ -45,6 +45,7 @@ npm install virtual-dom-stringify
 pip install racovimge
 yum install librsvg2
 ```
+Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去
 
 ### CORS支持
 Nginx增加如下配置
