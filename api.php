@@ -71,6 +71,8 @@ switch ($cht[0]) {
 		$plot = new radar($args['chl'], $args['cht'], $args['chof'], $config['node_path']);break;
 	case "msc":
 		$plot = new mscgen($args['chl'], $args['cht'], $args['chof']);break;
+	case "cover":
+		$plot = new cover($args['chl'], $args['cht'], $args['chof']);break;
 	defualt:
 		error();
 }
