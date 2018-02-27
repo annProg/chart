@@ -9,8 +9,8 @@
 require 'plot.class.php';
 
 class qrcode extends plot {
-	function __construct($chl, $cht, $chof="png") {
-		parent::__construct($chl, $cht, $chof);
+	function __construct($chl, $cht, $chof="png", $chs="") {
+		parent::__construct($chl, $cht, $chof, $chs);
 		$this->chof = "png";
 	}
 
@@ -18,6 +18,10 @@ class qrcode extends plot {
 		$p = parent::render();
 		if($p) return($p);
 		exec("myqr \"$this->chl\" -n $this->ofile", $out, $res);
+		$resize = "mogrify -resize " . $this->width . "x" . $this->height . " " . $this->ofile;
+		if($this->width && $this->height) {
+			exec($resize, $out, $res);
+		}
 		if($res != 0) {
 			$this->onerr();
 		}

@@ -27,6 +27,10 @@ function get_args() {
 			$args['chof'] = $_GET['chof'];
 		else
 			$args['chof'] = "png";
+		if(isset($_GET['chs']))
+			$args['chs'] = $_GET['chs'];
+		else
+			$args['chs'] = "";
 	} elseif(isset($_POST['cht']) && isset($_POST['chl'])) {
 		$args['cht'] = $_POST['cht'];
 		$args['chl'] = urldecode($_POST['chl']);
@@ -37,6 +41,10 @@ function get_args() {
 		else
 			$args['chof'] = "png";
 
+		if(isset($_POST['chs']))
+			$args['chs'] = $_POST['chs'];
+		else
+			$args['chs'] = "";
 		if(isset($_POST['inajax']) && $_POST['inajax'] == 1) {
 			global $inajax;
 			$inajax = true;
@@ -74,7 +82,7 @@ switch ($cht[0]) {
 	case "cover":
 		$plot = new cover($args['chl'], $args['cht'], $args['chof']);break;
 	case "qr":
-		$plot = new qrcode($args['chl'], $args['cht'], $args['chof']);break;
+		$plot = new qrcode($args['chl'], $args['cht'], $args['chof'], $args['chs']);break;
 	defualt:
 		error();
 }

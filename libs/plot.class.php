@@ -14,6 +14,9 @@ abstract class plot {
 	protected $chl = "";     //source code of graph description language
 	protected $cht = "";     //plot engine
 	protected $chof = "png";    //image type
+	protected $chs = "";  // width x height
+	protected $width = ""; // width
+	protected $height = ""; // height
 	protected $cacheDirCode = "cache/code/";
 	protected $cacheDirImg = "cache/images/";
 	protected $ifile = "";
@@ -21,12 +24,16 @@ abstract class plot {
 	protected $errno = 0;
 	protected $code = "";   //real code for writeCode
 
-	function __construct($chl,$cht,$chof="png") {
+	function __construct($chl,$cht,$chof="png", $chs="") {
 		$this->chl = $chl;
 		$this->cht = $cht;
 		if($chof != "") {
 			$this->chof = $chof;
 		}
+		$this->chs = $chs;
+		$size = explode("x", $chs);
+		$this->width = reset($size);
+		$this->height = end($size);
 	}
 
 	function __get($property_name) {
@@ -45,7 +52,7 @@ abstract class plot {
 	
 	function ofileName() {
 		$flag = str_replace(":", "_", $this->cht);
-		return md5($this->chl) . $flag;
+		return md5($this->chl) . $flag . $this->chs;
 	}
 
 	function setIfile() {
