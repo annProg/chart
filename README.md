@@ -53,6 +53,12 @@ tenprintcover.py已位于./tools/目录
 pip install cairocffi
 ```
 
+### qrcode
+使用myqr
+```
+pip install myqr
+```
+
 ### CORS支持
 Nginx增加如下配置
 
@@ -112,6 +118,11 @@ book cover可选
 ```
 cover 默认使用racovimge
 cover:ten 使用tenprintcover.py
+```
+
+qrcode可选
+```
+qr
 ```
 
 ## 演示
@@ -218,4 +229,9 @@ book cover
 标题
 作者
 子标题(tenprintcover支持子标题)
+```
+
+qrcode
+```
+文本
 ```

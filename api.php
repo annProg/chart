@@ -73,6 +73,8 @@ switch ($cht[0]) {
 		$plot = new mscgen($args['chl'], $args['cht'], $args['chof']);break;
 	case "cover":
 		$plot = new cover($args['chl'], $args['cht'], $args['chof']);break;
+	case "qr":
+		$plot = new qrcode($args['chl'], $args['cht'], $args['chof']);break;
 	defualt:
 		error();
 }
