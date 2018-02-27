@@ -40,12 +40,18 @@ npm install virtual-dom-stringify
 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可
 
 ### book cover
-使用racovimge
+racovimge
 ```
 pip install racovimge
 yum install librsvg2
 ```
 Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去
+
+tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)
+```
+tenprintcover.py已位于./tools/目录
+pip install cairocffi
+```
 
 ### CORS支持
 Nginx增加如下配置
@@ -100,6 +106,12 @@ radar
 mscgen可选
 ```
 msc
+```
+
+book cover可选
+```
+cover 默认使用racovimge
+cover:ten 使用tenprintcover.py
 ```
 
 ## 演示
@@ -205,4 +217,5 @@ book cover
 ```
 标题
 作者
+子标题(tenprintcover支持子标题)
 ```

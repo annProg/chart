@@ -11,6 +11,7 @@ require 'plot.class.php';
 class cover extends plot {
 	private $valid_cht = array("png","svg");
 	private $title = "Book Title";
+	private $subtitle = "";
 	private $author = "Annhe";
 	private $format = " --png";
 
@@ -27,15 +28,27 @@ class cover extends plot {
 
 	function parse() {
 		$arr = explode("\n", $this->chl);
-		$this->title = trim($arr[0]);
-		$this->author = trim($arr[1]);
+		if(array_key_exists("0", $arr)) $this->title = trim($arr[0]);
+		if(array_key_exists("1", $arr)) $this->author = trim($arr[1]);
+		if(array_key_exists("2", $arr)) $this->subtitle = trim($arr[2]);
 	}
 
 	function render() {
+		$engine = end(explode(":", $this->cht));
+		if($engine == "ten") {
+			$this->chof = "png";
+		}
 		$p = parent::render();
 		if($p) return($p);
 		$ofile = substr($this->ofile, 0, -4);
-		exec("export LANG=zh_CN.UTF-8;racovimge \"$this->title\" --authors \"$this->author\" $this->format --output $ofile 2>&1", $out, $res);
+		if($engine == "cover") {
+			$cmd = 'export LANG=zh_CN.UTF-8;racovimge "' . $this->title . '" -a "' . $this->author . '" ' . 
+				$this->format . ' -o ' . $ofile;
+		} else if ($engine == "ten") {
+			$cmd = 'export LANG=zh_CN.UTF-8;./tools/tenprintcover.py -t "' . $this->title . '" -a "' . 
+				$this->author . '" -s "' . $this->subtitle . '" -o ' . $this->ofile;
+		}
+		exec($cmd, $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}
