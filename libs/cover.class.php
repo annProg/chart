@@ -35,7 +35,7 @@ class cover extends plot {
 		$p = parent::render();
 		if($p) return($p);
 		$ofile = substr($this->ofile, 0, -4);
-		exec("racovimge $this->title --authors \"$this->author\" $this->format --output $ofile", $out, $res);
+		exec("export LANG=zh_CN.UTF-8;racovimge \"$this->title\" --authors \"$this->author\" $this->format --output $ofile 2>&1", $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}
