@@ -28,6 +28,7 @@ abstract class plot {
 		$this->chl = $this->__args('chl', $args);
 		$this->cht = $this->__args('cht', $args);
 		$this->chof = $this->__args('chof', $args, "png");
+		$this->chof = $this->__check($this->chof, "", "png");
 		$this->chs = $this->__args('chs', $args);
 		$size = explode("x", $this->chs);
 		$this->width = reset($size);
@@ -40,6 +41,12 @@ abstract class plot {
 		} else {
 			return $default;
 		}
+	}
+
+	function __check($v, $value, $default) {
+		if($v == $value)
+			return $default;
+		return $value;
 	}
 
 	function __get($property_name) {
