@@ -46,7 +46,7 @@ abstract class plot {
 	function __check($v, $value, $default) {
 		if($v == $value)
 			return $default;
-		return $value;
+		return $v;
 	}
 
 	function __get($property_name) {
