@@ -5,13 +5,28 @@
  * $Id api.php  tecbbs@qq.com 2015-6-8 $
  **/
 
-require 'config.php';
-spl_autoload_register(function ($class_name) {
-	require_once "./libs/" . $class_name . '.class.php';
-});
+require "config.php";
+require "./libs/plot.class.php";
 
-function error() {
-	die("args error! nothing to do...");
+// -- LOAD classes //
+$files = array_filter(scandir(__DIR__ . '/./libs'), function ($item) {
+	return preg_match('/.*\.class\.php/', $item) && (!preg_match('/^plot\.class\.php/', $item));
+});
+foreach($files as $k => $v) {
+	require_once "./libs/" . $v;
+}
+
+function error($msg = "args error") {
+	$ret = array(
+		"errno" => 100,
+		"msg" => $msg,
+	);
+	die(json_encode($ret));
+}
+
+function _list() {
+	global $config;
+	die(json_encode($config['engine']));
 }
 
 $method = "GET";
@@ -49,43 +64,22 @@ function get_args() {
 			global $inajax;
 			$inajax = true;
 		}
-	} else {
+	} elseif(isset($_GET['list'])) {
+		_list();
+	}else {
 		error();
 	}
-
 	if(!array_key_exists($args['cht'], $config['engine'])) {
-		error();
+		error("invalid cht:" . $args['cht']);
 	}
 	return $args;
 }
 
 $args = get_args();
 $cht = explode(':', $args['cht']);
-
-switch ($cht[0]) {
-	case "gv":
-		$plot = new graphviz($args['chl'], $args['cht'], $args['chof']);break;
-	case "ditaa":
-		$plot = new ditaa($args['chl'], $args['cht'], $args['chof']);break;
-	case "gp":
-		$plot = new gnuplot($args['chl'], $args['cht'], $args['chof']);break;
-	case "gnuplot":
-		$plot = new gnuplot($args['chl'], $args['cht'], $args['chof']);break;
-	case "markdown":
-		$plot = new markdownMindmap($args['chl'], $args['cht'], $args['chof']);break;
-	case "blockdiag":
-		$plot = new blockdiag($args['chl'], $args['cht'], $args['chof']);break;
-	case "radar":
-		$plot = new radar($args['chl'], $args['cht'], $args['chof'], $config['node_path']);break;
-	case "msc":
-		$plot = new mscgen($args['chl'], $args['cht'], $args['chof']);break;
-	case "cover":
-		$plot = new cover($args['chl'], $args['cht'], $args['chof']);break;
-	case "qr":
-		$plot = new qrcode($args['chl'], $args['cht'], $args['chof'], $args['chs']);break;
-	defualt:
-		error();
-}
+$class = $config['engine'][$cht[0]]['class'];
+$expr = "\$plot = new $class(\$args);";
+eval($expr);
 
 $ret = $plot->render();
 if($ret['errno'] != 0) {
@@ -100,7 +94,7 @@ if($ret['errno'] != 0) {
 $ret['imgpath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['imgpath']);
 $ret['codepath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['codepath']);
 
-if($method == "GET" && in_array($ret['imgtype'], $config['imgtype'])) {
+if($method == "GET" && in_array($ret['imgtype'], array("png", "gif", "jpeg"))) {
 	$imgstrout = "image$imgtype(imagecreatefrom$imgtype('$imgpath'));";
 	header("Content-Type: image/$imgtype; charset=UTF-8");
 	eval($imgstrout);

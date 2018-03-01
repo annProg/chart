@@ -6,8 +6,11 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-
-require 'plot.class.php';
+$config['engine']['radar'] = array(
+	"desc"=>"Radar Chart",
+	"usage" => "use csv format",
+	"class" => "radar"
+);
 
 class radar extends plot {
 	private $js = <<<EOF
@@ -43,8 +46,8 @@ EOF;
 
 	private $node_path = "/usr/lib/node_modules";
 
-	function __construct($chl,$cht,$chof="svg",$node_path="/usr/lib/node_modules") {
-		parent::__construct($chl,$cht,$chof);
+	function __construct($args) {
+		parent::__construct($args);
 		$this->chof="svg";
 	}
 

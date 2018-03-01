@@ -6,14 +6,18 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
+$config['engine']['msc'] = array(
+	"desc"=>"Message Sequence Chart",
+	"usage" => "http://www.mcternan.me.uk/mscgen/",
+	"class" => "mscgen"
+);
 
 class mscgen extends plot {
 	private $valid_cht = array("png","svg","eps");
 
-	function __construct($chl,$cht,$chof="png") {
-		parent::__construct($chl,$cht,$chof);
-		if(!in_array($chof, $this->valid_cht)) {
+	function __construct($args) {
+		parent::__construct($args);
+		if(!in_array($this->chof, $this->valid_cht)) {
 			$this->chof = "png";
 		}
 	}

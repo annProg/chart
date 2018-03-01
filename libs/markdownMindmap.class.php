@@ -6,8 +6,41 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-
-require 'plot.class.php';
+$config['engine']['markdown'] = array(
+	"desc"=>"MindMap",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:dot'] = array(
+	"desc"=>"MindMap(Dot)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:neato'] = array(
+	"desc"=>"MindMap(Neato)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:fdp'] = array(
+	"desc"=>"MindMap(Fdp)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:sfdp'] = array(
+	"desc"=>"MindMap(Sfdp)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:twopi'] = array(
+	"desc"=>"MindMap(Twopi)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
+$config['engine']['markdown:circo'] = array(
+	"desc"=>"MindMap(Circo)",
+	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"class" => "markdownMindmap"
+);
 
 class markdownMindmap extends plot {
 	private $edgecolor = "limegreen";
@@ -25,8 +58,8 @@ class markdownMindmap extends plot {
 	private $colorMatrix = array();
 	private $nodeStyle = "rounded";
 
-	function __construct($chl,$cht,$chof="png") {
-		parent::__construct($chl,$cht,$chof);
+	function __construct($args) {
+		parent::__construct($args);
 		$this->colorMatrix = array(
 			$this->colorbase, array_reverse($this->colorbase), $this->colorbase, 
 			$this->colorbase, array_reverse($this->colorbase),$this->colorbase
@@ -132,12 +165,9 @@ class markdownMindmap extends plot {
 	function render() {
 		$p = parent::render();
 		if($p) return($p);
-		$engine = explode(":", $this->cht);
-		if(count($engine) == 1) {
-			$engine = "dot";
-		} else {
-			$engine = $engine[1];
-		}
+		$cht = explode(":", $this->cht);
+		$engine = end($cht);
+		if($engine == "markdown") $engine = "dot";
 		exec("$engine -T$this->chof $this->ifile -o $this->ofile", $out, $res);
 		if($res != 0) {
 			$this->onerr();

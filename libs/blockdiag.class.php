@@ -6,7 +6,11 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
+$config['engine']['blockdiag'] = array(
+	"desc"=>"Blockdiag",
+	"usage" => "http://blockdiag.com/en/",
+	"class" => "blockdiag"
+);
 
 class blockdiag extends plot {
 	function render() {

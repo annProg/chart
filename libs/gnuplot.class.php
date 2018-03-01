@@ -6,7 +6,11 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
+$config['engine']['gnuplot'] = array(
+	"desc"=>"Gnuplot",
+	"usage" => "http://gnuplot.sourceforge.net/",
+	"class" => "gnuplot"
+);
 
 class gnuplot extends plot {
 	function render() {

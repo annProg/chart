@@ -12,34 +12,11 @@ $config = array();
 $config['api'] = "http://xxx.net/api.php";
 $config['rooturl'] = "http://xxx.net/";
 // engine类型
-$config['engine'] = array("gv"=>"Graphviz",
-	"gv:dot"=>"Dot", 
-	"gv:neato"=>"Neato", 
-	"gv:fdp"=>"Fdp", 
-	"gv:sfdp"=>"Sfdp", 
-	"gv:twopi"=>"Twopi", 
-	"gv:circo"=>"Circo", 
-	"gp"=>"Gnuplot", 
-	"ditaa"=>"Ditaa",
-	"blockdiag"=>"Blockdiag",
-	"radar"=>"Radar Chart",
-	"msc"=>"Message Sequence Chart",
-	"cover"=>"Book Cover",
-	"cover:ten"=>"Book Cover(tenprintcover)",
-	"qr"=>"QRcode",
-	"markdown"=>"Markdown",
-	"markdown:dot"=>"Markdown:dot",
-	"markdown:neato"=>"Markdown:neato",
-	"markdown:fdp"=>"Markdown:fdp",
-	"markdown:sfdp"=>"Markdown:sfdp",
-	"markdown:twopi"=>"Markdown:twopi",
-	"markdown:circo"=>"Markdown:circo"
-);
-$config['imgtype'] = array("png", "gif", "jpeg");
+$config['engine'] = array();
 // 代码保存路径
-$config['out']['code'] = "./code/";
+$config['cache']['code'] = "./cache/code/";
 // 图片保存路径
-$config['out']['img'] = "./img/";
+$config['cache']['image'] = "./cache/images/";
 // 错误图片
 $config['error'] = "error.png";
 $config['node_path'] = "/usr/lib/node_modules";

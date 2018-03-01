@@ -6,11 +6,15 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
+$config['engine']['qr'] = array(
+	"desc"=>"QRcode",
+	"usage" => "strings",
+	"class" => "qrcode"
+);
 
 class qrcode extends plot {
-	function __construct($chl, $cht, $chof="png", $chs="") {
-		parent::__construct($chl, $cht, $chof, $chs);
+	function __construct($args) {
+		parent::__construct($args);
 		$this->chof = "png";
 	}
 

@@ -49,9 +49,10 @@ textarea {
 }
 #preview {
 	width: 45%;
+	height: 600px;
 	margin-left: 20px;
 	padding-left: 50px;
-	padding-top: 80px;
+	padding-top: 60px;
 	float: right;
 	text-align: center;
 }
@@ -72,6 +73,7 @@ textarea {
 <body>
 
 <div id="content">
+<div id="listdata" style="display:none"></div>
 <div id="editor">
 <form id="chart-editor" accept-charset="utf-8" name="editor" method="POST" action="
 <?php require 'config.php';
@@ -79,28 +81,11 @@ echo $config['api'];?>
 " enctype="application/x-www-form-urlencoded">
 	<input type="hidden" name="chof" value="" id="chof">
 	<textarea name="chl" id="chl"></textarea>
-	
-<?php
-require 'config.php';
-$engines = $config['engine'];
-$html = '<br>';
-$html .= '<select id="cht" name="cht">';
-
-$selected = "gv";
-foreach($engines as $k => $v)
-{
-	if($k == $selected)
-	{
-		$html .= '<option value="' . $k . '" selected="selected">' . $v . '</option>';
-	}else {
-		$html .= '<option value="' . $k . '">' . $v . '</option>';
-	}
-}
-print_r($html);
-?>
-</select>
-<input type="button" id="submit" name="submit" value="Submit" onclick=preview();>
-</form></div>
+	<br>
+	<select id="cht" name="cht"></select>
+	<input type="button" id="submit" name="submit" value="Submit" onclick=preview();>
+</form>
+</div>
 <div style="text-align:center; margin:0 auto;" id="preview">
 	<img id="imgpreview" style="max-width:95%;" src="error.png" alt="chart" title="chart"/>
 </div>
@@ -188,5 +173,6 @@ print_r($html);
 		$("#" + id).attr('src', 'error.png');
 	}	
 </script>
+<script src="static/js/editor.js"></script>
 </body>
 </html>

@@ -24,16 +24,22 @@ abstract class plot {
 	protected $errno = 0;
 	protected $code = "";   //real code for writeCode
 
-	function __construct($chl,$cht,$chof="png", $chs="") {
-		$this->chl = $chl;
-		$this->cht = $cht;
-		if($chof != "") {
-			$this->chof = $chof;
-		}
-		$this->chs = $chs;
-		$size = explode("x", $chs);
+	function __construct($args) {
+		$this->chl = $this->__args('chl', $args);
+		$this->cht = $this->__args('cht', $args);
+		$this->chof = $this->__args('chof', $args, "png");
+		$this->chs = $this->__args('chs', $args);
+		$size = explode("x", $this->chs);
 		$this->width = reset($size);
 		$this->height = end($size);
+	}
+
+	function __args($key, $args, $default="") {
+		if(array_key_exists($key, $args)) {
+			return $args[$key];
+		} else {
+			return $default;
+		}
 	}
 
 	function __get($property_name) {

@@ -76,6 +76,8 @@ textarea {
 <form method="GET" role="form" class="form-horizontal">
 <?php
 require 'config.php';
+require 'functions/common.function.php';
+require 'libs/plot.class.php';
 require 'libs/markdownMindmap.class.php';
 /**
  * Usage:
@@ -96,7 +98,7 @@ if(isset($_GET['engine']))
 	$selected = $_GET['engine'];
 }
 
-$engines = $config['engine'];
+$engines = json_decode(httpGet($config['api'] . "?list"), true);
 $html = '<textarea id="code" name="code">' . $default_code . '</textarea>';
 $html .= '<br>';
 $html .= '<select id="engine" name="engine">';
@@ -105,9 +107,9 @@ foreach($engines as $k => $v)
 {
 	if($k == $selected)
 	{
-		$html .= '<option value="' . $k . '" selected="selected">' . $v . '</option>';
+		$html .= '<option value="' . $k . '" selected="selected">' . $v['desc'] . '</option>';
 	}else {
-		$html .= '<option value="' . $k . '">' . $v . '</option>';
+		$html .= '<option value="' . $k . '">' . $v['desc'] . '</option>';
 	}
 }
 $html .= '</select>';

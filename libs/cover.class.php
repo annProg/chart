@@ -6,8 +6,18 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
 
+$config['engine']['cover'] = array(
+	"desc"=>"Book Cover",
+	"usage" => "Title\nAuthor",
+	"class" => "cover"
+);
+$config['engine']['cover:ten'] = array(
+	"desc"=>"Book Cover(tenprintcover)",
+	"usage" => "Title\nAuthor\nSubTitle",
+	"class" => "cover"
+);
+	
 class cover extends plot {
 	private $valid_cht = array("png","svg");
 	private $title = "Book Title";
@@ -15,12 +25,12 @@ class cover extends plot {
 	private $author = "Annhe";
 	private $format = " --png";
 
-	function __construct($chl,$cht,$chof="png") {
-		parent::__construct($chl,$cht,$chof);
-		if(!in_array($chof, $this->valid_cht)) {
+	function __construct($args) {
+		parent::__construct($args);
+		if(!in_array($this->chof, $this->valid_cht)) {
 			$this->chof = "png";
 		}
-		if($chof == "svg") {
+		if($this->chof == "svg") {
 			$this->format = "";
 		}
 		$this->parse();
@@ -34,7 +44,8 @@ class cover extends plot {
 	}
 
 	function render() {
-		$engine = end(explode(":", $this->cht));
+		$cht = explode(":", $this->cht);
+		$engine = end($cht);
 		if($engine == "ten") {
 			$this->chof = "png";
 		}

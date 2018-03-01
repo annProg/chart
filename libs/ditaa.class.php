@@ -6,11 +6,16 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-require 'plot.class.php';
+$config['engine']['ditaa'] = array(
+	"desc"=>"Ditaa",
+	"usage" => "http://ditaa.sourceforge.net/",
+	"class" => "ditaa"
+);
+
 
 class ditaa extends plot {
-	function __construct($chl, $cht, $chof="png") {
-		parent::__construct($chl, $cht, $chof);
+	function __construct($args) {
+		parent::__construct($args);
 		$this->chof = "png";
 	}
 
