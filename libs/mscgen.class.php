@@ -13,11 +13,11 @@ $config['engine']['msc'] = array(
 );
 
 class mscgen extends plot {
-	private $valid_cht = array("png","svg","eps");
+	private $valid_chof = array("png","svg","eps");
 
 	function __construct($args) {
 		parent::__construct($args);
-		if(!in_array($this->chof, $this->valid_cht)) {
+		if(!in_array($this->chof, $this->valid_chof)) {
 			$this->chof = "png";
 		}
 	}

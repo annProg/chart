@@ -19,7 +19,7 @@ $config['engine']['cover:ten'] = array(
 );
 	
 class cover extends plot {
-	private $valid_cht = array("png","svg");
+	private $valid_chof = array("png","svg");
 	private $title = "Book Title";
 	private $subtitle = "";
 	private $author = "Annhe";
@@ -27,7 +27,7 @@ class cover extends plot {
 
 	function __construct($args) {
 		parent::__construct($args);
-		if(!in_array($this->chof, $this->valid_cht)) {
+		if(!in_array($this->chof, $this->valid_chof)) {
 			$this->chof = "png";
 		}
 		if($this->chof == "svg") {
