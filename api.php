@@ -26,7 +26,11 @@ function error($msg = "args error") {
 
 function _list() {
 	global $config;
-	die(json_encode($config['engine']));
+	$engines = $config['engine'];
+	foreach($config['disabled'] as $k => $v) {
+		unset($engines[$v]);
+	}
+	die(json_encode($engines));
 }
 
 $method = "GET";
@@ -69,7 +73,7 @@ function get_args() {
 	}else {
 		error();
 	}
-	if(!array_key_exists($args['cht'], $config['engine'])) {
+	if(!array_key_exists($args['cht'], $config['engine']) || in_array($args['cht'], $config['disabled'])) {
 		error("invalid cht:" . $args['cht']);
 	}
 	return $args;

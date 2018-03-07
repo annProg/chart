@@ -13,6 +13,8 @@ $config['api'] = "http://xxx.net/api.php";
 $config['rooturl'] = "http://xxx.net/";
 // engine类型
 $config['engine'] = array();
+// 禁用某些engine
+$config['disabled'] = array('asy');
 // 代码保存路径
 $config['cache']['code'] = "./cache/code/";
 // 图片保存路径
