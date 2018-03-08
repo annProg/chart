@@ -82,7 +82,7 @@ echo $config['api'];?>
 	<textarea name="chl" id="chl"></textarea>
 	<br>
 	<select id="cht" name="cht"></select>
-	<label for="chof">Output Format:&nbsp;</label>
+	<label for="chof">&nbsp;Format:&nbsp;</label>
 	<input type="" name="chof" value="" id="chof" size=5 placeholder="png">
 	<input type="button" id="submit" name="submit" value="Submit" onclick=preview();>
 </form>
