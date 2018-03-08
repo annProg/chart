@@ -42,8 +42,8 @@ abstract class plot {
 		return $default;
 	}
 
-	function _filter($arr, $arg) {
-		return str_replace($arr, "", $arg);
+	function _filter($arr, $arg, $replace = "") {
+		return str_replace($arr, $replace, $arg);
 	}
 
 	function __args($key, $args, $default="") {

@@ -16,7 +16,7 @@ class qrcode extends plot {
 	function __construct($args) {
 		parent::__construct($args);
 		$this->chof = "png";
-		$this->chl = $this->_filter(array('"'), $this->chl);
+		$this->chl = trim(explode("\n", $this->_filter(array('"'), $this->chl))[0]);
 	}
 
 	function render() {
