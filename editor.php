@@ -79,10 +79,11 @@ textarea {
 <?php require 'config.php';
 echo $config['api'];?>
 " enctype="application/x-www-form-urlencoded">
-	<input type="hidden" name="chof" value="" id="chof">
 	<textarea name="chl" id="chl"></textarea>
 	<br>
 	<select id="cht" name="cht"></select>
+	<label for="chof">Output Format:&nbsp;</label>
+	<input type="" name="chof" value="" id="chof" size=5 placeholder="png">
 	<input type="button" id="submit" name="submit" value="Submit" onclick=preview();>
 </form>
 </div>
