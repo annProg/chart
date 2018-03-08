@@ -58,7 +58,7 @@ function get_args() {
 			$args['chs'] = "";
 	} elseif(isset($_POST['cht']) && isset($_POST['chl'])) {
 		$args['cht'] = $_POST['cht'];
-		$args['chl'] = urldecode($_POST['chl']);
+		$args['chl'] = $_POST['chl'];
 		
 		$method = "POST";
 		if(isset($_POST['chof']))
