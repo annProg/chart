@@ -42,6 +42,10 @@ abstract class plot {
 		return $default;
 	}
 
+	function _filter($arr, $arg) {
+		return str_replace($arr, "", $arg);
+	}
+
 	function __args($key, $args, $default="") {
 		if(array_key_exists($key, $args)) {
 			return $args[$key];

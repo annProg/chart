@@ -34,6 +34,10 @@ class cover extends plot {
 			$this->format = "";
 		}
 		$this->parse();
+		$arr = array('"', ';', '<', '>');
+		$this->title = substr($this->_filter($arr, $this->title), 0, 50);
+		$this->subtitle = substr($this->_filter($arr, $this->subtitle), 0, 50);
+		$this->author = substr($this->_filter($arr, $this->author), 0, 20);
 	}
 
 	function parse() {
