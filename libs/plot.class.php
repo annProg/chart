@@ -29,10 +29,17 @@ abstract class plot {
 		$this->cht = $this->__args('cht', $args);
 		$this->chof = $this->__args('chof', $args, "png");
 		$this->chof = $this->__check($this->chof, "", "png");
+		$this->chof = $this->_pattern_check('/^[a-z]{2,4}$/', $this->chof, "png");
 		$this->chs = $this->__args('chs', $args);
+		$this->chs = $this->_pattern_check('/^[0-9]{1,4}x[0-9]{1,4}$/', $this->chs, "");
 		$size = explode("x", $this->chs);
 		$this->width = reset($size);
 		$this->height = end($size);
+	}
+
+	function _pattern_check($pattern, $str, $default) {
+		if(preg_match($pattern, $str)) return $str;
+		return $default;
 	}
 
 	function __args($key, $args, $default="") {

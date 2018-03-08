@@ -33,6 +33,12 @@ function _list() {
 	die(json_encode($engines));
 }
 
+function _check($s) {
+	$s = preg_match('/^[a-z0-9]{2,9}$|^$/', $s);
+	if($s) return true;
+	return false;
+}
+
 $method = "GET";
 $inajax = false;
 function get_args() {
@@ -72,6 +78,9 @@ function get_args() {
 		_list();
 	}else {
 		error();
+	}
+	if(!_check($args['chof']) || !_check($args['chs'])) {
+		error('invalid char detected');
 	}
 	if(!array_key_exists($args['cht'], $config['engine']) || in_array($args['cht'], $config['disabled'])) {
 		error("invalid cht:" . $args['cht']);
