@@ -24,7 +24,7 @@ class asymptote extends plot {
 	function render() {
 		$p = parent::render();
 		if($p) return($p);
-		exec("asy $this->ifile -f $this->chof -o $this->ofile", $out, $res);
+		exec("export PATH=\"/bin:\$PATH\";asy $this->ifile -f $this->chof -o $this->ofile", $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}
