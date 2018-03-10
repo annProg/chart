@@ -13,7 +13,7 @@ $config['engine']['asy'] = array(
 );
 
 class asymptote extends plot {
-	private $valid_chof = array("png","jpg","gif","pdf","eps");
+	private $valid_chof = array("png","jpg","gif","pdf","eps", "svg");
 	function __construct($args) {
 		parent::__construct($args);
 		if(!in_array($this->chof, $this->valid_chof)) {
@@ -25,7 +25,7 @@ class asymptote extends plot {
 		$p = parent::render();
 		if($p) return($p);
 		$ofile = explode(".", $this->ofile)[0];
-		exec("export PATH=\"/bin:\$PATH\";asy $this->ifile -f $this->chof -o $ofile", $out, $res);
+		exec("export PATH=\"/bin:\$PATH\";asy --libgs=\"\" $this->ifile -f $this->chof -o $ofile", $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}
