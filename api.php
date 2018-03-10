@@ -17,9 +17,12 @@ foreach($files as $k => $v) {
 }
 
 function error($msg = "args error") {
+	global $config;
+	$imgpath = $config . "?cht=ditaa&chl=" . urlencode($msg);
 	$ret = array(
 		"errno" => 100,
 		"msg" => $msg,
+		"imgpath" => $imgpath,
 	);
 	die(json_encode($ret));
 }
