@@ -20,10 +20,15 @@ RUN	apk update && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
 	rm -rf /var/cache/apk/*
 
-RUN pip3 install myqr
+RUN pip3 install myqr blockdiag racovimge
+RUN apk add --no-cache --virtual .build-deps gcc && \
+	pip3 install cairocffi && \
+	apk del .build-deps
 
 COPY conf/default.conf /etc/nginx/conf.d/
 COPY conf/supervisord.conf /etc/supervisord.conf
+COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
+COPY conf/pip.conf /root/.pip/pip.conf
 
 # 更新代码
 RUN	apk add --no-cache --virtual .build-deps git && \
