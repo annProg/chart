@@ -28,7 +28,6 @@ COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
 COPY conf/pip.conf /root/.pip/pip.conf
 COPY conf/rsvg /usr/bin/rsvg
-COPY tools/asy_alpine /usr/local/bin/asy
 
 RUN chmod +x /usr/bin/rsvg
 
@@ -45,6 +44,7 @@ RUN	apk add --no-cache --virtual .build-deps git && \
 	mv tools/ditaa /usr/bin && \
 	mv init.sh / && \
 	mv tools/mscgen /usr/bin && \
+	mv tools/asy_alpine /usr/local/bin && \
 	rm -fr /var/cache/apk/* && \
 	chown -R nginx.nginx /home/wwwroot/default && \
 	apk del .build-deps
