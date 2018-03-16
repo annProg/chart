@@ -28,6 +28,7 @@ COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
 COPY conf/pip.conf /root/.pip/pip.conf
 COPY conf/rsvg /usr/bin/rsvg
+COPY tools/asy_alpine /usr/local/bin/asy
 
 RUN chmod +x /usr/bin/rsvg
 
