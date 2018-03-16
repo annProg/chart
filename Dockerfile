@@ -33,8 +33,8 @@ COPY conf/rsvg /usr/bin/rsvg
 RUN chmod +x /usr/bin/rsvg
 
 # asymptote
-RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev && \
-	texlive texlive-dvi ghostscript texmf-dist-latexextra && \
+RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev  \
+	texlive texlive-xetex texlive-dvi ghostscript texmf-dist-latexextra && \
 	rm -rf /var/cache/apk/*
 
 RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev autoconf && \
