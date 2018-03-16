@@ -41,6 +41,7 @@ RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev 
 	cd /root && \
 	git clone http://github.com/vectorgraphics/asymptote && \
 	cd asymptote && \
+	sed -i "s/#define HAVE_FEENABLEEXCEPT/\/\/#define HAVE_FEENABLEEXCEPT/g" fpu.h && \
 	./autogen.sh && \
 	./configure && \
 	make asy && \
