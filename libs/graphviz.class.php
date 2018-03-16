@@ -50,7 +50,7 @@ class graphviz extends plot {
 		$engine = end($cht);
 		if($engine == "gv") $engine = "dot";
 		exec("$engine -T$this->chof $this->ifile -o $this->ofile", $out, $res);
-		if($res != 0) {
+		if($res != 0 || !file_exists($this->ofile)) {
 			$this->onerr();
 		}
 		return $this->result();
