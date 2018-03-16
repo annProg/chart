@@ -7,7 +7,7 @@ RUN mkdir -p /home/wwwroot/ && \
 	mkdir /var/log/supervisor && \
 	mkdir /home/nobody && chown -R nobody.nobody /home/nobody && \
 	sed -ri 's#^(nobody:.*)?:/:(.*)#\1:/home/nobody:\2#g' /etc/passwd && \
-	sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+	sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN	apk update && \
 	apk add --no-cache tzdata && \
@@ -15,20 +15,21 @@ RUN	apk update && \
 	echo "${TIMEZONE}" > /etc/timezone && \
 	apk add --no-cache supervisor nginx php7 php7-fpm php7-common php7-gd \
 	php7-json php7-curl php7-mbstring php7-iconv php7-opcache \
-	graphviz python3 py3-numpy py3-pillow && \
+	graphviz python3 py3-numpy py3-pillow librsvg py3-cffi nodejs-npm && \
 	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
 	rm -rf /var/cache/apk/*
 
-RUN pip3 install myqr blockdiag racovimge
-RUN apk add --no-cache --virtual .build-deps gcc && \
-	pip3 install cairocffi && \
-	apk del .build-deps
+RUN pip3 install myqr blockdiag racovimge cairocffi
+RUN npm install -g svg-radar-chart virtual-dom-stringify
 
 COPY conf/default.conf /etc/nginx/conf.d/
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
 COPY conf/pip.conf /root/.pip/pip.conf
+COPY conf/rsvg /usr/bin/rsvg
+
+RUN chmod +x /usr/bin/rsvg
 
 # 更新代码
 RUN	apk add --no-cache --virtual .build-deps git && \

@@ -1,0 +1,2 @@
+#!/bin/sh
+rsvg-convert $1 -f png -o $2
