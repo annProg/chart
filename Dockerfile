@@ -20,6 +20,7 @@ RUN	apk update && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
 	rm -rf /var/cache/apk/*
 
+
 RUN pip3 install myqr blockdiag racovimge cairocffi
 RUN npm install -g svg-radar-chart virtual-dom-stringify
 
@@ -30,6 +31,24 @@ COPY conf/pip.conf /root/.pip/pip.conf
 COPY conf/rsvg /usr/bin/rsvg
 
 RUN chmod +x /usr/bin/rsvg
+
+# asymptote
+RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev && \
+	texlive texlive-dvi ghostscript texmf-dist-latexextra && \
+	rm -rf /var/cache/apk/*
+
+RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev autoconf && \
+	cd /root && \
+	git clone http://github.com/vectorgraphics/asymptote && \
+	cd asymptote && \
+	./autogen.sh && \
+	./configure && \
+	make asy && \
+	make asy-keywords.el && \
+	make install-asy && \
+	rm -rf /var/cache/apk/* && \
+	apk del .build-deps
+	
 
 # 更新代码
 RUN	apk add --no-cache --virtual .build-deps git && \
@@ -44,7 +63,6 @@ RUN	apk add --no-cache --virtual .build-deps git && \
 	mv tools/ditaa /usr/bin && \
 	mv init.sh / && \
 	mv tools/mscgen /usr/bin && \
-	mv tools/asy_alpine /usr/local/bin && \
 	rm -fr /var/cache/apk/* && \
 	chown -R nginx.nginx /home/wwwroot/default && \
 	apk del .build-deps
