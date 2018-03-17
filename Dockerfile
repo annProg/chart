@@ -6,8 +6,8 @@ RUN mkdir -p /home/wwwroot/ && \
 	mkdir -p /run/nginx && \
 	mkdir /var/log/supervisor && \
 	mkdir /home/nobody && chown -R nobody.nobody /home/nobody && \
-	sed -ri 's#^(nobody:.*)?:/:(.*)#\1:/home/nobody:\2#g' /etc/passwd && \
-	sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+	sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+	sed -ri 's#^(nobody:.*)?:/:(.*)#\1:/home/nobody:\2#g' /etc/passwd
 
 RUN	apk update && \
 	apk add --no-cache tzdata && \
@@ -21,13 +21,14 @@ RUN	apk update && \
 	rm -rf /var/cache/apk/*
 
 
+COPY conf/pip.conf /root/.pip/pip.conf
+
 RUN pip3 install myqr blockdiag racovimge cairocffi
 RUN npm install -g svg-radar-chart virtual-dom-stringify
 
 COPY conf/default.conf /etc/nginx/conf.d/
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
-COPY conf/pip.conf /root/.pip/pip.conf
 COPY conf/rsvg /usr/bin/rsvg
 
 RUN chmod +x /usr/bin/rsvg
@@ -58,7 +59,6 @@ RUN	apk add --no-cache --virtual .build-deps git && \
 	mv chart default && \
 	cd default && \
 	rm -fr conf Dockerfile run.sh .git/ && \
-	mkdir /usr/share/fonts && \
 	mv fonts/wqy-microhei/wqy-microhei.ttc /usr/share/fonts && \
 	rm -f tools/ditaa0_9.jar && \
 	mv tools/ditaa /usr/bin && \
