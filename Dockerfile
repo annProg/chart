@@ -48,6 +48,8 @@ RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev 
 	make asy && \
 	make asy-keywords.el && \
 	make install-asy && \
+	cd ../ && rm -fr asymptote && \
+	ln -s /usr/local/bin/asy /bin/asy && \
 	rm -rf /var/cache/apk/* && \
 	apk del .build-deps
 	
