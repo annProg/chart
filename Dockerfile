@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.8
 
 ENV TIMEZONE Asia/Shanghai
 
@@ -40,15 +40,16 @@ RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev  \
 
 RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev autoconf && \
 	cd /root && \
-	git clone http://github.com/vectorgraphics/asymptote && \
-	cd asymptote && \
+	wget https://github.com/vectorgraphics/asymptote/archive/2.44.tar.gz && \
+	tar zxvf 2.44.tar.gz && \
+	cd asymptote-2.44 && \
 	sed -i "s/#define HAVE_FEENABLEEXCEPT/\/\/#define HAVE_FEENABLEEXCEPT/g" fpu.h && \
 	./autogen.sh && \
 	./configure && \
 	make asy && \
 	make asy-keywords.el && \
 	make install-asy && \
-	cd ../ && rm -fr asymptote && \
+	cd ../ && rm -fr asymptote* *.tar.gz && \
 	ln -s /usr/local/bin/asy /bin/asy && \
 	rm -rf /var/cache/apk/* && \
 	apk del .build-deps
