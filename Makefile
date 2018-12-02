@@ -20,4 +20,5 @@ run:
 ifeq ($(exists), yes)
 	docker stop $(APP);docker rm $(APP)
 endif
-	docker run --name $(APP) -d -p $(PORT):80 --env APP_CONFIG_PATH=$(APP_CONFIG_PATH) $(IMAGE):latest
+	docker run --name $(APP) -d -p $(PORT):80 --env APP_CONFIG_PATH=$(APP_CONFIG_PATH) -v $(PWD)/config.php:$(APP_CONFIG_PATH)/CONFIG -v $(PWD):/home/wwwroot/default/cache $(IMAGE):latest
+

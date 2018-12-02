@@ -1,8 +1,9 @@
 FROM alpine:3.8
 
 ENV TIMEZONE Asia/Shanghai
+ENV WWWROOT /home/wwwroot/default
 
-RUN mkdir -p /home/wwwroot/ && \
+RUN mkdir -p ${WWWROOT} && \
 	mkdir -p /run/nginx && \
 	mkdir /var/log/supervisor && \
 	mkdir /home/nobody && chown -R nobody.nobody /home/nobody && \
@@ -57,10 +58,10 @@ RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev 
 
 # 更新代码
 RUN	apk add --no-cache --virtual .build-deps git && \
-	cd /home/wwwroot/ && \
+	cd /tmp/ && \
 	git clone https://github.com/annProg/chart && \
-	mv chart default && \
-	cd default && \
+	mv chart/* ${WWWROOT} && \
+	cd ${WWWROOT} && \
 	rm -fr conf Dockerfile run.sh .git/ && \
 	mv fonts/wqy-microhei/wqy-microhei.ttc /usr/share/fonts && \
 	rm -f tools/ditaa0_9.jar && \
@@ -68,7 +69,7 @@ RUN	apk add --no-cache --virtual .build-deps git && \
 	mv init.sh / && \
 	mv tools/mscgen /usr/bin && \
 	rm -fr /var/cache/apk/* && \
-	chown -R nginx.nginx /home/wwwroot/default && \
+	chown -R nginx.nginx ${WWWROOT} && \
 	apk del .build-deps
 
 CMD ["sh", "/init.sh"]
