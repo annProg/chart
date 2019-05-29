@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 ENV TIMEZONE Asia/Shanghai
 ENV WWWROOT /home/wwwroot/default
@@ -57,19 +57,15 @@ RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev 
 	
 
 # 更新代码
-RUN	apk add --no-cache --virtual .build-deps git && \
-	cd /tmp/ && \
-	git clone https://github.com/annProg/chart && \
-	mv chart/* ${WWWROOT} && \
-	cd ${WWWROOT} && \
-	rm -fr conf Dockerfile run.sh .git/ && \
-	mv fonts/wqy-microhei/wqy-microhei.ttc /usr/share/fonts && \
-	rm -f tools/ditaa0_9.jar && \
-	mv tools/ditaa /usr/bin && \
-	mv init.sh / && \
-	mv tools/mscgen /usr/bin && \
-	rm -fr /var/cache/apk/* && \
-	chown -R nginx.nginx ${WWWROOT} && \
-	apk del .build-deps
+RUN chown -R nginx.nginx ${WWWROOT}
+COPY *.php ${WWWROOT}
+COPY libs ${WWWROOT}
+COPY functions ${WWWROOT}
+COPY images ${WWWROOT}
+COPY static ${WWWROOT}
+COPY fonts/wqy-microhei /usr/share/fonts
+COPY tools/ditaa /usr/bin
+COPY tools/mscgen /usr/bin
+COPY init.sh /
 
 CMD ["sh", "/init.sh"]
