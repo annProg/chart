@@ -16,29 +16,15 @@ RUN	apk update && \
 	echo "${TIMEZONE}" > /etc/timezone && \
 	apk add --no-cache supervisor nginx php7 php7-fpm php7-common php7-gd \
 	php7-json php7-curl php7-mbstring php7-iconv php7-opcache \
-	graphviz python3 py3-numpy py3-pillow librsvg py3-cffi nodejs-npm && \
+	graphviz python3 py3-numpy py3-pillow librsvg py3-cffi && \
 	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
 	rm -rf /var/cache/apk/*
 
-
-COPY conf/pip.conf /root/.pip/pip.conf
-
-RUN pip3 install myqr blockdiag racovimge cairocffi
-RUN npm install -g svg-radar-chart virtual-dom-stringify
-
-COPY conf/default.conf /etc/nginx/conf.d/
-COPY conf/supervisord.conf /etc/supervisord.conf
-COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
-COPY conf/rsvg /usr/bin/rsvg
-
-RUN chmod +x /usr/bin/rsvg
-
 # asymptote
 RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev  \
-	texlive texlive-xetex texlive-dvi ghostscript texmf-dist-latexextra && \
+	texlive texlive-xetex texlive-dvi ghostscript texmf-dist-latexextra;true && \
 	rm -rf /var/cache/apk/*
-
 RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev autoconf && \
 	cd /root && \
 	wget https://github.com/vectorgraphics/asymptote/archive/2.44.tar.gz && \
@@ -54,18 +40,29 @@ RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev 
 	ln -s /usr/local/bin/asy /bin/asy && \
 	rm -rf /var/cache/apk/* && \
 	apk del .build-deps
-	
+
+
+COPY conf/pip.conf /root/.pip/pip.conf
+RUN pip3 install myqr blockdiag racovimge cairocffi
+
+COPY conf/default.conf /etc/nginx/conf.d/
+COPY conf/supervisord.conf /etc/supervisord.conf
+COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
+COPY conf/rsvg /usr/bin/rsvg
+
+RUN chmod +x /usr/bin/rsvg
 
 # 更新代码
 RUN chown -R nginx.nginx ${WWWROOT}
-COPY *.php ${WWWROOT}
-COPY libs ${WWWROOT}
-COPY functions ${WWWROOT}
-COPY images ${WWWROOT}
-COPY static ${WWWROOT}
-COPY fonts/wqy-microhei /usr/share/fonts
+COPY *.php ${WWWROOT}/
+COPY libs ${WWWROOT}/libs
+COPY functions ${WWWROOT}/functions
+COPY images ${WWWROOT}/images
+COPY static ${WWWROOT}/static
+COPY fonts/wqy-microhei /usr/share/fonts/wqy-microhei
 COPY tools/ditaa /usr/bin
 COPY tools/mscgen /usr/bin
 COPY init.sh /
+RUN ls ${WWWROOT}
 
 CMD ["sh", "/init.sh"]
