@@ -9,12 +9,12 @@
 
 $config = array();
 // api链接地址
-$config['api'] = "http://xxx.net/api.php";
-$config['rooturl'] = "http://xxx.net/";
+$config['rooturl'] = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
+$config['api'] = $config['rooturl'] . "/api.php";
 // engine类型
 $config['engine'] = array();
 // 禁用某些engine
-$config['disabled'] = array('asy');
+$config['disabled'] = explode(",",getenv("DISABLED"));
 // 代码保存路径
 $config['cache']['code'] = "./cache/code/";
 // 图片保存路径
