@@ -19,20 +19,18 @@ Demo:  https://api.annhe.net/gv/editor.php
 
 支持的画图引擎(cht参数)
 
-| cht | 功能 |
-| ---- | ---- |
-| gv:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | graphviz|
-| gv | =gv:dot |
-| gp  | gnuplot |
-| ditaa | ditaa |
-| markdown:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | markdown mindmap |
-| markdown | =markdown:dot |
-| radar | 雷达图 |
-| msc | mscgen |
-| cover | 书籍封面 racovimge |
-| cover:ten | 书籍封面 tenprintcover.py |
-| qr | 二维码 |
-| blockdiag | blockdiag |
+| cht | 功能 | 备注 |
+| ---- | ---- | -- |
+| gv:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | graphviz| gv=gv:dot |
+| gp  | gnuplot ||
+| ditaa | ditaa ||
+| markdown:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | markdown mindmap |markdown=markdown:dot|
+| radar | 雷达图 ||
+| msc | mscgen ||
+| cover | 书籍封面 racovimge ||
+| cover:ten | 书籍封面 tenprintcover.py ||
+| qr | 二维码 ||
+| blockdiag | blockdiag ||
 
 ## 部署
 
@@ -66,9 +64,6 @@ add_header Access-Control-Allow-Methods POST,OPTIONS;
 add_header Access-Control-Allow-Headers Content-Type;
 ```
 
-
-
-
 ## 演示
 
 graphviz
@@ -77,7 +72,7 @@ graphviz
 digraph G{node[fillcolor=mintcream,style=filled];rankdir=LR;plot->graphviz;}
 ```
 
-![](http://api.annhe.net/gv/api.php?cht=gv&chl=digraph+G+%7Bnode%5Bfillcolor%3Dmintcream%2Cstyle%3Dfilled%5D%3Brankdir%3DLR%3Bplot-%3Egraphviz%3B%7D)
+![](https://api.annhe.net/gv/api.php?cht=gv&chl=digraph+G+%7Bnode%5Bfillcolor%3Dmintcream%2Cstyle%3Dfilled%5D%3Brankdir%3DLR%3Bplot-%3Egraphviz%3B%7D)
 
 ditaa
 
@@ -113,7 +108,7 @@ gnuplot
 plot sin(x)*x;
 ```
 
-![](http://api.annhe.net/gv/api.php?cht=gp&chl=plot+sin%28x%29%2Ax%3B)
+![](https://api.annhe.net/gv/api.php?cht=gp&chl=plot+sin%28x%29%2Ax%3B)
 
 markdown mindmap
 
@@ -132,50 +127,7 @@ markdown mindmap
 ### graphviz
 ```
 
-![](http://api.annhe.net/gv/api.php?cht=markdown&chl=%23+plot%0D%0A%23%23+Graphviz%0D%0A%23%23%23+dot%0D%0A%23%23%23+neato%0D%0A%23%23%23+fdp%0D%0A%23%23%23+sfdp%0D%0A%23%23%23+twopi%0D%0A%23%23%23+circo%0D%0A%23%23+ditaa%0D%0A%23%23+gnuplot%0D%0A%23%23+markdown+mindmap%0D%0A%23%23%23+graphviz)
+![](https://api.annhe.net/gv/api.php?cht=markdown&chl=%23+plot%0D%0A%23%23+Graphviz%0D%0A%23%23%23+dot%0D%0A%23%23%23+neato%0D%0A%23%23%23+fdp%0D%0A%23%23%23+sfdp%0D%0A%23%23%23+twopi%0D%0A%23%23%23+circo%0D%0A%23%23+ditaa%0D%0A%23%23+gnuplot%0D%0A%23%23+markdown+mindmap%0D%0A%23%23%23+graphviz)
 
 
-radar chart
 
-```
-name,价格,易用性,性能,外观,功能
-iphoneX,.5,.9,1,.9,.8
-Mi6,.8,.9,.9,.8,.8
-P10,.6,.9,.9,.8,.8
-```
-
-![](https://api.annhe.net/gv/cache/images/9e2055259519baca0f6eb86a5d4cdedfradar.svg)
-
-mscgen
-```
-# Fictional client-server protocol
-msc {
- arcgradient = 8;
-
- a [label="Client"],b [label="Server"];
-
- a=>b [label="data1"];
- a-xb [label="data2"];
- a=>b [label="data3"];
- a<=b [label="ack1, nack2"];
- a=>b [label="data2", arcskip="1"];
- |||;
- a<=b [label="ack3"];
- |||;
-}
-```
-
-![](https://api.annhe.net/gv/api.php?cht=msc&chl=%23+Fictional+client-server+protocol%0D%0Amsc+%7B%0D%0A+arcgradient+%3D+8%3B%0D%0A%0D%0A+a+%5Blabel%3D%22Client%22%5D%2Cb+%5Blabel%3D%22Server%22%5D%3B%0D%0A%0D%0A+a%3D%3Eb+%5Blabel%3D%22data1%22%5D%3B%0D%0A+a-xb+%5Blabel%3D%22data2%22%5D%3B%0D%0A+a%3D%3Eb+%5Blabel%3D%22data3%22%5D%3B%0D%0A+a%3C%3Db+%5Blabel%3D%22ack1%2C+nack2%22%5D%3B%0D%0A+a%3D%3Eb+%5Blabel%3D%22data2%22%2C+arcskip%3D%221%22%5D%3B%0D%0A+%7C%7C%7C%3B%0D%0A+a%3C%3Db+%5Blabel%3D%22ack3%22%5D%3B%0D%0A+%7C%7C%7C%3B%0D%0A%7D)
-
-book cover
-
-```
-标题
-作者
-子标题(tenprintcover支持子标题)
-```
-
-qrcode
-```
-文本
-```
