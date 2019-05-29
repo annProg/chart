@@ -1,0 +1,40 @@
+FROM alpine:3.9
+
+ENV TIMEZONE Asia/Shanghai
+ENV WWWROOT /home/wwwroot/default
+
+RUN mkdir -p ${WWWROOT} && \
+	mkdir -p /run/nginx && \
+	mkdir /var/log/supervisor && \
+	mkdir /home/nobody && chown -R nobody.nobody /home/nobody && \
+	sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+	sed -ri 's#^(nobody:.*)?:/:(.*)#\1:/home/nobody:\2#g' /etc/passwd
+
+RUN	apk update && \
+	apk add --no-cache tzdata && \
+	cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
+	echo "${TIMEZONE}" > /etc/timezone && \
+	apk add --no-cache supervisor nginx php7 php7-fpm php7-common php7-gd \
+	php7-json php7-curl php7-mbstring php7-iconv php7-opcache \
+	graphviz && \
+	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf && \
+    sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
+	rm -rf /var/cache/apk/*
+
+COPY conf/default.conf /etc/nginx/conf.d/
+COPY conf/supervisord.conf /etc/supervisord.conf
+
+# 更新代码
+RUN chown -R nginx.nginx ${WWWROOT}
+COPY *.php ${WWWROOT}/
+COPY libs ${WWWROOT}/libs
+COPY functions ${WWWROOT}/functions
+COPY images ${WWWROOT}/images
+COPY static ${WWWROOT}/static
+COPY fonts/wqy-microhei /usr/share/fonts/wqy-microhei
+COPY tools/ditaa /usr/bin
+COPY tools/mscgen /usr/bin
+COPY init.sh /
+RUN ls ${WWWROOT}
+
+CMD ["sh", "/init.sh"]
