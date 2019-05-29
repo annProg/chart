@@ -88,7 +88,7 @@ echo $config['api'];?>
 </form>
 </div>
 <div style="text-align:center; margin:0 auto;" id="preview">
-	<img id="imgpreview" style="max-width:95%;" src="error.png" alt="chart" title="chart"/>
+	<img id="imgpreview" style="max-width:95%;" src="static/error.png" alt="chart" title="chart"/>
 </div>
 </div>
 <script>
@@ -171,7 +171,7 @@ echo $config['api'];?>
 	}
 
 	function onError(id) {
-		$("#" + id).attr('src', 'error.png');
+		$("#" + id).attr('src', 'static/error.png');
 	}	
 </script>
 <script src="static/js/editor.js"></script>

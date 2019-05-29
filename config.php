@@ -20,5 +20,5 @@ $config['cache']['code'] = "./cache/code/";
 // 图片保存路径
 $config['cache']['image'] = "./cache/images/";
 // 错误图片
-$config['error'] = "error.png";
+$config['error'] = "static/error.png";
 $config['node_path'] = "/usr/lib/node_modules";
