@@ -31,6 +31,7 @@ Demo:  https://api.annhe.net/gv/editor.php
 | cover:ten | 书籍封面 tenprintcover.py ||
 | qr | 二维码 ||
 | blockdiag | blockdiag ||
+| asy |asymptote ||
 
 
 ## 部署
