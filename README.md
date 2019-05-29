@@ -21,17 +21,18 @@ Demo:  https://api.annhe.net/gv/editor.php
 
 | cht | 功能 |
 | ---- | ---- |
-| gv:(dot|neato|fdp|sfdp|twopi|circo) | graphviz|
+| gv:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | graphviz|
 | gv | =gv:dot |
 | gp  | gnuplot |
 | ditaa | ditaa |
-| markdown:(dot|neato|fdp|sfdp|twopi|circo) | markdown mindmap |
+| markdown:(dot\|neato\|fdp\|sfdp\|twopi\|circo) | markdown mindmap |
 | markdown | =markdown:dot |
 | radar | 雷达图 |
 | msc | mscgen |
 | cover | 书籍封面 racovimge |
 | cover:ten | 书籍封面 tenprintcover.py |
 | qr | 二维码 |
+| blockdiag | blockdiag |
 
 ## 部署
 
@@ -40,34 +41,21 @@ Demo:  https://api.annhe.net/gv/editor.php
 |gv | yum,apt等安装graphviz | 依赖`graphviz-gd` |
 |gp | yum,apt等安装gnuplot | |
 |ditaa |使用`tools/ditaa`, 复制 `tools/ditaa`到`/usr/local/bin`目录下即可|https://github.com/akavel/ditaa|
-|blockdiag |`pip install blockdiag` |配置中文字体，参考配置
+|blockdiag |`pip install blockdiag` |中文字体参考下文配置 |
+| radar |`npm install svg-radar-chart -g && npm install virtual-dom-stringify`||
+|msc | 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可||
+|cover |`pip install racovimge && yum install librsvg2` |Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去|
+|cover:ten |`tenprintcover.py已位于./tools/目录 pip install cairocffi` |tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)|
+| qr |`pip install myqr` ||
+
+### blockdiag配置中文字体
 ```
 cp -r fonts/* /usr/share/fonts
 cat > /home/www/.blockdiagrc <<EOF
 [blockdiag]
 fontpath = /usr/share/fonts/wqy-microhei/wqy-microhei.ttc
 EOF
-``` |
-| radar |
-```
-npm install svg-radar-chart -g
-npm install virtual-dom-stringify
-``` ||
-|msc | 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可||
-|cover |racovimge
-```
-pip install racovimge
-yum install librsvg2
-``` |Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去|
-|cover:ten |
-```
-tenprintcover.py已位于./tools/目录
-pip install cairocffi
-``` |tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)|
-| qr |
-```
-pip install myqr
-``` ||
+``` 
 
 ### CORS支持
 Nginx增加如下配置
