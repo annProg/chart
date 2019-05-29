@@ -1,63 +1,73 @@
-# chart api
+# Text to Chart API
 
-包含graphviz，gnuplot，ditaa, 思维导图, 雷达图, mscgen的画图api
+文本转图片接口
+
+支持graphviz，gnuplot，ditaa, 思维导图, 雷达图, mscgen等
+
+## 快速开始
+
+Demo:  https://api.annhe.net/gv/editor.php
+
+使用GET或者POST方法，提供以下参数
+
+| 参数 | 用途 |
+| ---- | ---- |
+| cht  | plot引擎 |
+| chl  | plot源码 |
+| chof | 输出格式 |
+
+
+支持的画图引擎(cht参数)
+
+| cht | 功能 |
+| ---- | ---- |
+| gv:(dot|neato|fdp|sfdp|twopi|circo) | graphviz|
+| gv | =gv:dot |
+| gp  | gnuplot |
+| ditaa | ditaa |
+| markdown:(dot|neato|fdp|sfdp|twopi|circo) | markdown mindmap |
+| markdown | =markdown:dot |
+| radar | 雷达图 |
+| msc | mscgen |
+| cover | 书籍封面 racovimge |
+| cover:ten | 书籍封面 tenprintcover.py |
+| qr | 二维码 |
 
 ## 部署
 
-### graphviz
-使用包管理工具安装，需要安装`graphviz-gd`
-
-### gnuplot
-使用包管理工具安装
-
-### ditaa
-使用`tools/ditaa`, 复制 `tools/ditaa`到`/usr/local/bin`目录下即可
-
-这里使用的ditaa是go语言实现的ditaa版本:https://github.com/akavel/ditaa
-
-git pull 拉取代码到web目录，执行`cp config.php.sample config.php` ，根据实际情况修改 `config.php`
-
-### blockdiag
-```
-pip install blockdiag
-```
-如需使用中文，请配置中文字体，参考配置
+| cht | 安装方式 | 说明 |
+| -- | -- | -- |
+|gv | yum,apt等安装graphviz | 依赖`graphviz-gd` |
+|gp | yum,apt等安装gnuplot | |
+|ditaa |使用`tools/ditaa`, 复制 `tools/ditaa`到`/usr/local/bin`目录下即可|https://github.com/akavel/ditaa|
+|blockdiag |`pip install blockdiag` |配置中文字体，参考配置
 ```
 cp -r fonts/* /usr/share/fonts
 cat > /home/www/.blockdiagrc <<EOF
 [blockdiag]
 fontpath = /usr/share/fonts/wqy-microhei/wqy-microhei.ttc
 EOF
-```
-
-### 雷达图
+``` |
+| radar |
 ```
 npm install svg-radar-chart -g
 npm install virtual-dom-stringify
-```
-
-### mscgen
-使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可
-
-### book cover
-racovimge
+``` ||
+|msc | 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可||
+|cover |racovimge
 ```
 pip install racovimge
 yum install librsvg2
-```
-Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去
-
-tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)
+``` |Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去|
+|cover:ten |
 ```
 tenprintcover.py已位于./tools/目录
 pip install cairocffi
-```
-
-### qrcode
-使用myqr
+``` |tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)|
+| qr |
 ```
 pip install myqr
-```
+``` ||
 
 ### CORS支持
 Nginx增加如下配置
@@ -69,61 +79,7 @@ add_header Access-Control-Allow-Headers Content-Type;
 ```
 
 
-## 在线演示
-https://api.annhe.net/gv/editor.php
 
-## 使用方法
-使用GET或者POST方法，提供以下参数
-
-| 参数 | 用途 |
-| ---- | ---- |
-| cht  | plot引擎 |
-| chl  | plot源码 |
-| chof | 输出格式 |
-
-### cht
-graphviz可选：
-```
-gv, gv:dot, gv:neato, gv:fdp, gv:sfdp, gv:twopi, gv:circo
-```
-其中 `gv=gv:dot`
-
-gnuplot可选:
-```
-gp
-```
-
-ditaa可选:
-```
-ditaa
-```
-
-markdown mindmap可选
-```
-markdown, markdown:dot, markdown:neato, markdown:fdp, markdown:sfdp, markdown:twopi, markdown:circo
-```
-其中`markdown=markdown:dot`
-
-雷达图可选
-```
-radar
-```
-
-mscgen可选
-```
-msc
-```
-
-book cover可选
-```
-cover 默认使用racovimge
-cover:ten 使用tenprintcover.py
-```
-
-qrcode可选
-```
-qr
-```
 
 ## 演示
 
