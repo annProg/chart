@@ -31,3 +31,10 @@ add_header Access-Control-Allow-Methods POST,OPTIONS;
 add_header Access-Control-Allow-Headers Content-Type;
 ```
 
+### 获取正确的scheme
+
+Nginx中须配置
+
+```
+proxy_set_header X-Forwarded-Proto $scheme;
+```

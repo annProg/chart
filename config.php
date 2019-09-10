@@ -7,9 +7,14 @@
  * Created Time: 2017-05-04 17:44:55
  **/
 
+// php在nginx后通过 HTTP_X_FORWARDED_PROTO 获取正确的 scheme
+// Nginx须配置 proxy_set_header X-Forwarded-Proto $scheme;
+$scheme = $_SERVER['REQUEST_SCHEME'];
+if(isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) $scheme = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+
 $config = array();
 // api链接地址
-$config['rooturl'] = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
+$config['rooturl'] = $scheme . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
 $config['api'] = $config['rooturl'] . "/api.php";
 // engine类型
 $config['engine'] = array();
