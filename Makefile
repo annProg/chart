@@ -1,5 +1,5 @@
 IMAGENAME ?= $(shell pwd |awk -F'/' '{print $$NF}')
-REGISTRY ?= registry.cn-beijing.aliyuncs.com/kubebase
+REGISTRY ?= ann17/chart
 IMAGE = $(REGISTRY)/$(IMAGENAME)
 TAG ?= latest
 APP ?= chart

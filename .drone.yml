@@ -1,0 +1,22 @@
+kind: pipeline
+name: chart
+
+steps:
+- name: build
+  image: banzaicloud/drone-kaniko
+  settings:
+    repo: ann17/chart
+    auto_tag: true
+    username:
+      from_secret: username
+    password:
+      from_secret: password
+- name: build-gv
+  image: banzaicloud/drone-kaniko
+  settings:
+    repo: ann17/chart-gv
+    auto_tag: true
+    username:
+      from_secret: username
+    password:
+      from_secret: password
