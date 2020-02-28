@@ -1,5 +1,5 @@
 IMAGENAME ?= $(shell pwd |awk -F'/' '{print $$NF}')
-REGISTRY ?= ann17/chart
+REGISTRY ?= ann17
 IMAGE = $(REGISTRY)/$(IMAGENAME)
 TAG ?= latest
 APP ?= chart
