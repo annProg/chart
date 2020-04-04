@@ -23,10 +23,12 @@ abstract class plot {
 	protected $ofile = "";
 	protected $errno = 0;
 	protected $code = "";   //real code for writeCode
+	protected $cache = "true";
 
 	function __construct($args) {
 		$this->chl = $this->__args('chl', $args);
 		$this->cht = $this->__args('cht', $args);
+		$this->cache = $this->__args('cache', $args, "true");
 		$this->chof = $this->__args('chof', $args, "png");
 		$this->chof = $this->__check($this->chof, "", "png");
 		$this->chof = $this->_pattern_check('/^[a-z]{2,4}$/', $this->chof, "png");
@@ -121,7 +123,7 @@ abstract class plot {
 		$this->setOfile();
 		$this->writeCode();
 
-		if(file_exists($this->ofile)) {
+		if(file_exists($this->ofile) && $this->cache == "true") {
 			return $this->result();
 		}
 		return false;

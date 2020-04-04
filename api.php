@@ -61,6 +61,8 @@ function get_args() {
 			$args['chs'] = $_GET['chs'];
 		else
 			$args['chs'] = "";
+		if(isset($_GET['cache']))
+			$args['cache'] = $_GET['cache'];
 	} elseif(isset($_POST['cht']) && isset($_POST['chl'])) {
 		$args['cht'] = $_POST['cht'];
 		$args['chl'] = $_POST['chl'];
@@ -79,6 +81,9 @@ function get_args() {
 			global $inajax;
 			$inajax = true;
 		}
+
+		if(isset($_POST['cache']))
+			$args['cache'] = $_POST['cache'];
 	} elseif(isset($_GET['list'])) {
 		_list();
 	}else {
