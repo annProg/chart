@@ -60,7 +60,8 @@ class cover extends plot {
 			$cmd = 'export LANG=zh_CN.UTF-8;racovimge "' . $this->title . '" -a "' . $this->author . '" ' . 
 				$this->format . ' -o ' . $ofile;
 		} else if ($engine == "ten") {
-			$cmd = 'export LANG=zh_CN.UTF-8;./tools/tenprintcover.py -t "' . $this->title . '" -a "' . 
+			if ($this->subtitle == "") $this->subtitle = "Subtitle";
+			$cmd = 'export LANG=zh_CN.UTF-8;tenprintcover.py -t "' . $this->title . '" -a "' . 
 				$this->author . '" -s "' . $this->subtitle . '" -o ' . $this->ofile;
 		}
 		exec($cmd, $out, $res);
