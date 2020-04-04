@@ -52,6 +52,9 @@ COPY conf/rsvg /usr/bin/rsvg
 
 RUN chmod +x /usr/bin/rsvg
 
+# wkhtmltoimage
+RUN apk add --no-cache wkhtmltopdf
+
 # 更新代码
 RUN chown -R nginx.nginx ${WWWROOT}
 COPY *.php ${WWWROOT}/
