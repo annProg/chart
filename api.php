@@ -24,6 +24,7 @@ function error($msg = "args error") {
 		"msg" => $msg,
 		"imgpath" => $imgpath,
 	);
+	header('Content-Type:application/json');
 	die(json_encode($ret));
 }
 
@@ -33,6 +34,7 @@ function _list() {
 	foreach($config['disabled'] as $k => $v) {
 		unset($engines[$v]);
 	}
+	header('Content-Type:application/json');
 	die(json_encode($engines));
 }
 
@@ -117,5 +119,6 @@ if($method == "GET" && in_array($ret['imgtype'], array("png", "gif", "jpeg"))) {
 } elseif($inajax == true) {
 	die('<img src="//' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/' . $ret['imgpath'] . '"/>');
 } else {
+	header('Content-Type:application/json');
 	die(json_encode($ret));
 }
