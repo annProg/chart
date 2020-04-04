@@ -3,7 +3,7 @@ name: chart
 
 steps:
 - name: build
-  image: banzaicloud/drone-kaniko
+  image: banzaicloud/drone-kaniko:0.5.1
   settings:
     repo: ann17/chart
     auto_tag: true
@@ -12,7 +12,7 @@ steps:
     password:
       from_secret: password
 - name: build-gv
-  image: banzaicloud/drone-kaniko
+  image: banzaicloud/drone-kaniko:0.6.0
   settings:
     repo: ann17/chart-gv
     auto_tag: true

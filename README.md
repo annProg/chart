@@ -1,4 +1,5 @@
 # Text to Chart API
+[![Build Status](https://ci.annhe.net/api/badges/annProg/chart/status.svg)](https://ci.annhe.net/annProg/chart)
 
 文本转图片接口
 
