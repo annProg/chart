@@ -32,6 +32,11 @@ RUN	apt-get update && \
 
 RUN pip3 install myqr blockdiag racovimge cairocffi
 
+# gnuplot
+RUN	apt-get update && \
+	apt-get install --no-install-recommends -y gnuplot && \
+	rm -rf /var/cache/apt/*
+
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
