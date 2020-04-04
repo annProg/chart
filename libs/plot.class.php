@@ -78,7 +78,7 @@ abstract class plot {
 	
 	function ofileName() {
 		$flag = str_replace(":", "_", $this->cht);
-		return md5($this->chl) . $flag . $this->chs;
+		return md5($this->chl) . "-" . $flag . "-" . $this->width . "x" . $this->height;
 	}
 
 	function setIfile() {
@@ -90,7 +90,7 @@ abstract class plot {
 	}
 
 	function setOfile() {
-		$this->ofile = $this->cacheDirImg . $this->ofileName() . "-" . $this->width . "x" . $this->height . "." . $this->chof;
+		$this->ofile = $this->cacheDirImg . $this->ofileName() . "." . $this->chof;
 		if(!file_exists($this->cacheDirImg)) {
 			mkdir($this->cacheDirImg, 0755, true);
 		}
