@@ -1,62 +1,49 @@
-FROM alpine:3.9
+FROM ubuntu:19.10
 
 ENV TIMEZONE Asia/Shanghai
 ENV WWWROOT /home/wwwroot/default
 
+RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
+
 RUN mkdir -p ${WWWROOT} && \
 	mkdir -p /run/nginx && \
 	mkdir /var/log/supervisor && \
-	mkdir /home/nobody && chown -R nobody.nobody /home/nobody && \
-	sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+	mkdir /home/nobody && chown -R nobody:nogroup /home/nobody && \
 	sed -ri 's#^(nobody:.*)?:/:(.*)#\1:/home/nobody:\2#g' /etc/passwd
 
-RUN	apk update && \
-	apk add --no-cache tzdata && \
-	cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
-	echo "${TIMEZONE}" > /etc/timezone && \
-	apk add --no-cache supervisor nginx php7 php7-fpm php7-common php7-gd \
-	php7-json php7-curl php7-mbstring php7-iconv php7-opcache \
-	graphviz python3 py3-numpy py3-pillow librsvg py3-cffi && \
-	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf && \
-    sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
-	rm -rf /var/cache/apk/*
+# nginx + php
+RUN	apt-get update && \
+	apt-get install --no-install-recommends -y supervisor nginx php7.3 php7.3-fpm php7.3-gd \
+	php7.3-json php7.3-curl php7.3-mbstring php7.3-iconv php7.3-opcache && \
+	rm -fr /var/cache/apt/*
+RUN	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.3/fpm/php-fpm.conf && \
+    sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/7.3/fpm/php.ini
 
-# asymptote
-RUN apk add --no-cache gsl-dev freeglut-dev gc-dev fftw-dev  \
-	texlive texlive-xetex texlive-dvi ghostscript texmf-dist-latexextra;true && \
-	rm -rf /var/cache/apk/*
-RUN apk add --no-cache --virtual .build-deps git build-base bison flex zlib-dev autoconf && \
-	cd /root && \
-	wget https://github.com/vectorgraphics/asymptote/archive/2.44.tar.gz && \
-	tar zxvf 2.44.tar.gz && \
-	cd asymptote-2.44 && \
-	sed -i "s/#define HAVE_FEENABLEEXCEPT/\/\/#define HAVE_FEENABLEEXCEPT/g" fpu.h && \
-	./autogen.sh && \
-	./configure && \
-	make asy && \
-	make asy-keywords.el && \
-	make install-asy && \
-	cd ../ && rm -fr asymptote* *.tar.gz && \
-	ln -s /usr/local/bin/asy /bin/asy && \
-	rm -rf /var/cache/apk/* && \
-	apk del .build-deps
+# graphviz asymptote wkhtmltopdf
+RUN	apt-get update && \
+	apt-get install --no-install-recommends -y graphviz asymptote wkhtmltopdf && \
+	rm -fr /var/cache/apt/*
+
+# python3
+RUN	apt-get update && \
+	apt-get install --no-install-recommends -y python3 python3-numpy python3-pillow librsvg2-bin python3-cffi python3-pip python3-setuptools && \
+	rm -rf /var/cache/apt/*
 
 
-COPY conf/pip.conf /root/.pip/pip.conf
 RUN pip3 install myqr blockdiag racovimge cairocffi
 
-COPY conf/default.conf /etc/nginx/conf.d/
+COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
 COPY conf/rsvg /usr/bin/rsvg
 
 RUN chmod +x /usr/bin/rsvg
 
-# wkhtmltoimage
-RUN apk add --no-cache wkhtmltopdf
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+RUN mkdir /run/php
 
 # 更新代码
-RUN chown -R nginx.nginx ${WWWROOT}
+RUN chown -R www-data:www-data ${WWWROOT}
 COPY *.php ${WWWROOT}/
 COPY libs ${WWWROOT}/libs
 COPY functions ${WWWROOT}/functions
