@@ -114,7 +114,11 @@ if($ret['errno'] != 0) {
 	$imgpath = $ret['imgpath'];
 }
 
-$ret['imgpath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['imgpath']);
+$imgdomain = $config['rooturl'];
+if ($config['cdn'] != "") {
+	$imgdomain = $config['cdn'];
+}
+$ret['imgpath'] = rtrim($imgdomain, '/') . '/' . ltrim($ret['imgpath']);
 $ret['codepath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['codepath']);
 
 if($method == "GET" && in_array($ret['imgtype'], array("png", "gif", "jpeg"))) {

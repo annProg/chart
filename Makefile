@@ -7,6 +7,8 @@ exists ?= $(shell docker ps -a |grep $(APP) &>/dev/null && echo "yes" || echo "n
 PORT ?= 8080
 PWD =$(shell pwd)
 APP_CONFIG_PATH ?= /run/secret/appconfig
+CDN ?=
+DISABLED ?=
 
 all: build push
 
@@ -29,5 +31,5 @@ run:
 ifeq ($(exists), yes)
 	docker stop $(APP);docker rm $(APP)
 endif
-	docker run --name $(APP) -d -p $(PORT):80 --env APP_CONFIG_PATH=$(APP_CONFIG_PATH) -v $(PWD)/config.php:$(APP_CONFIG_PATH)/CONFIG -v $(PWD)/cache:/home/wwwroot/default/cache --restart=always $(IMAGE):$(TAG)
+	docker run --name $(APP) -d -e "DISABLED=$(DISABLED)" -e "CDN=$(CDN)" -p $(PORT):80 --env APP_CONFIG_PATH=$(APP_CONFIG_PATH) -v $(PWD)/config.php:$(APP_CONFIG_PATH)/CONFIG -v $(PWD)/cache:/home/wwwroot/default/cache --restart=always $(IMAGE):$(TAG)
 
