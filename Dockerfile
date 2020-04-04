@@ -37,6 +37,9 @@ RUN	apt-get update && \
 	apt-get install --no-install-recommends -y gnuplot && \
 	rm -rf /var/cache/apt/*
 
+# fix racovimge font dir
+RUN sed -i 's|~|/tmp|g' /usr/local/lib/python3.7/dist-packages/racovimge/racovimge.py
+
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
