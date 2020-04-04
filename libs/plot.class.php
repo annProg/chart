@@ -90,7 +90,7 @@ abstract class plot {
 	}
 
 	function setOfile() {
-		$this->ofile = $this->cacheDirImg . $this->ofileName() . $this->width . "x" . $this->height . "." . $this->chof;
+		$this->ofile = $this->cacheDirImg . $this->ofileName() . "-" . $this->width . "x" . $this->height . "." . $this->chof;
 		if(!file_exists($this->cacheDirImg)) {
 			mkdir($this->cacheDirImg, 0755, true);
 		}
