@@ -122,8 +122,15 @@ $ret['imgpath'] = rtrim($imgdomain, '/') . '/' . ltrim($ret['imgpath']);
 $ret['codepath'] = rtrim($config['rooturl'], '/') . '/' . ltrim($ret['codepath']);
 
 if($method == "GET" && in_array($ret['imgtype'], array("png", "gif", "jpeg"))) {
+	# error.png 缓存时间
 	$imgstrout = "image$imgtype(imagecreatefrom$imgtype('$imgpath'));";
 	header("Content-Type: image/$imgtype; charset=UTF-8");
+
+	$maxAge = $config['cache']['age'];
+	if ($ret['errno'] != 0) {
+		$maxAge = $config['cache']['error'];
+	}
+	header("Cache-Control: max-age=$maxAge");
 	eval($imgstrout);
 } elseif($inajax == true) {
 	die('<img src="//' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']) . '/' . $ret['imgpath'] . '"/>');

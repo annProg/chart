@@ -23,6 +23,10 @@ location @avatar {
 	if ($avatarsize ~* "big") {
 		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$avatar1.$avatar2.$avatar3.$avatar4&chs=150x150;
 	}
+
+	# 设置过期时间，否则cdn不会命中缓存
+	# 对头像来说，短一些比较合适，否则用户更新头像不生效
+	expires 1d;
 }
 
 ```

@@ -7,6 +7,14 @@
  * Created Time: 2017-05-04 17:44:55
  **/
 
+function readenv($env, $default="") {
+	$e = getenv($env);
+	if ($e == "") {
+		return $default;
+	}
+	return $e;
+}
+
 // php在nginx后通过 HTTP_X_FORWARDED_PROTO 获取正确的 scheme
 // Nginx须配置 proxy_set_header X-Forwarded-Proto $scheme;
 $scheme = $_SERVER['REQUEST_SCHEME'];
@@ -28,3 +36,7 @@ $config['cache']['image'] = "./cache/images/";
 // 错误图片
 $config['error'] = "cache/error.png";
 $config['node_path'] = "/usr/lib/node_modules";
+
+// cache
+$config['cache']['error'] = readenv("CACHE_ERR",'600');
+$config['cache']['age'] = readenv("CACHE_NORMAL",'2592000');
