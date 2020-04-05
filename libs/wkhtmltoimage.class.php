@@ -14,7 +14,7 @@ $config['engine']['url2img'] = array(
 
 class wkhtmltoimage extends plot {
 	private $valid_chof = array("png","jpg");
-	private $quality = 85;
+	private $quality = 30;
 	function __construct($args) {
 		parent::__construct($args);
 		if(!in_array($this->chof, $this->valid_chof)) {
@@ -36,7 +36,7 @@ class wkhtmltoimage extends plot {
 		if (count($matches) < 2) {
 			$this->onerr();
 		} else {
-			exec("wkhtmltoimage --quality $this->quality --height $this->height --width $this->width -f $this->chof \"$url\" $this->ofile", $out, $res);
+			exec("timeout 3 wkhtmltoimage --quality $this->quality --height $this->height --width $this->width -f $this->chof \"$url\" $this->ofile", $out, $res);
 			if($res != 0) {
 				$this->onerr();
 			}
