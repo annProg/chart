@@ -38,3 +38,13 @@ Nginx中须配置
 ```
 proxy_set_header X-Forwarded-Proto $scheme;
 ```
+
+## CDN
+
+CDN源站加以下配置， `root`是 `chart` 的 `cache` 所在目录
+
+```
+location ^~ /cache/ {
+	root /home/chart;
+}
+```
