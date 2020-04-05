@@ -40,6 +40,10 @@ RUN	apt-get update && \
 # fix racovimge font dir
 RUN sed -i 's|~|/tmp|g' /usr/local/lib/python3.7/dist-packages/racovimge/racovimge.py
 
+# fix wkhtmltopdf ref:https://github.com/wkhtmltopdf/wkhtmltopdf/issues/4497
+RUN apt-get install --no-install-recommends -y binutils && rm -rf /var/cache/apt/*
+RUN strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
+
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
