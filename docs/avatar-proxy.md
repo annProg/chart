@@ -15,13 +15,13 @@ location ~ /uc_server/data/avatar/(\d\d\d)/(\d\d)/(\d\d)/(\d\d)_avatar_(.+?).jpg
 
 location @avatar {
 	if ($avatarsize ~* "small") {
-		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4small&chs=48x48;
+		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4&chs=48x48;
 	}
 	if ($avatarsize ~* "middle") {
-		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4small&chs=120x120;
+		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4&chs=120x120;
 	}
 	if ($avatarsize ~* "big") {
-		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4small&chs=150x150;
+		proxy_pass http://127.0.0.1:8080/api.php?cht=avatar&chl=$1$2$3$4&chs=150x150;
 	}
 }
 ```
