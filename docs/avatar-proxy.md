@@ -4,6 +4,7 @@
 
 ```
 location ~ /uc_server/data/avatar/(\d\d\d)/(\d\d)/(\d\d)/(\d\d)_avatar_(.+?).jpg {
+	root /discuz/uc_server;
 	set $avatar1 $1;
 	set $avatar2 $2;
 	set $avatar3 $3;
