@@ -43,3 +43,9 @@ sub_filter_types text/xml;
 sub_filter_once off;
 sub_filter 'https://www.discuz.com/uc_server/data/avatar/' 'https://attcdn.discuz.com/uc_server/data/avatar/';
 ```
+
+类似的方法还可以将某些引入大 `js` 文件的插件放入cdn
+
+```
+sub_filter 'source/plugin/xxx' 'https://attcdn.discuz.com/source/plugin/xxx'
+```
