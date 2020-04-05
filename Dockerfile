@@ -61,6 +61,7 @@ COPY fonts/wqy-microhei /usr/share/fonts/wqy-microhei
 COPY tools/ditaa /usr/bin
 COPY tools/mscgen /usr/bin
 COPY tools/tenprintcover.py /usr/bin
+COPY vendor ${WWWROOT}/vendor
 COPY init.sh /
 RUN ls ${WWWROOT}
 

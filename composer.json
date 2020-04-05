@@ -1,0 +1,5 @@
+{
+    "require": {
+        "yzalis/identicon": "^2.0"
+    }
+}
