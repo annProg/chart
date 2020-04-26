@@ -19,7 +19,7 @@ This API is used to convert Graph Description Language (GDL) and simple text int
 - Available engine (cht)
 
 | cht | description | note | demo |
-| ---- | ---- | -- |
+|----|----|--|--|
 | gv:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | graphviz| gv=gv:dot |[graphviz](docs/demo/graphviz.md) |
 | gp  | gnuplot ||[gnuplot](docs/demo/gnuplot.md)|
 | ditaa | ditaa ||[ditaa](docs/demo/ditaa.md)|
