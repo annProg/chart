@@ -5,7 +5,7 @@
 | cht | Install | Note |
 | -- | -- | -- |
 |gv | install `graphviz` by yum, apt etc | require `graphviz-gd` |
-|gp | install `gnuplot` by yum, apt etc | |
+|gnuplot | install `gnuplot` by yum, apt etc | |
 |ditaa |copy `tools/ditaa` to `/usr/local/bin`|https://github.com/akavel/ditaa|
 |blockdiag |`pip install blockdiag` |The CJK configuration method is in the next section |
 |radar |`npm install svg-radar-chart -g && npm install virtual-dom-stringify`||

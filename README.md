@@ -21,7 +21,7 @@ This API is used to convert Graph Description Language (GDL) and simple text int
 | cht | description | note | demo |
 |----|----|--|--|
 | gv:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | graphviz| gv=gv:dot |[graphviz](docs/demo/graphviz.md) |
-| gp  | gnuplot ||[gnuplot](docs/demo/gnuplot.md)|
+| gnuplot  | gnuplot ||[gnuplot](docs/demo/gnuplot.md)|
 | ditaa | ditaa ||[ditaa](docs/demo/ditaa.md)|
 | markdown:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | markdown mindmap |markdown=markdown:dot|[mindmap](docs/demo/mindmap.md) |
 | radar | radar chart ||[radar](docs/demo/radar.md) |
@@ -33,7 +33,6 @@ This API is used to convert Graph Description Language (GDL) and simple text int
 | asy |asymptote ||[asymptote](docs/demo/asymptote.md) |
 | url2img | website screenshot ||[url2img](docs/demo/url2img.md) |
 | avatar | identicon avatar||[avatar](docs/demo/avatar.md) |
-
 
 ## Deployment
 
