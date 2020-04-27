@@ -23,7 +23,7 @@ if(isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) $scheme = $_SERVER['HTTP_X_FORWARD
 $config = array();
 // api链接地址
 $config['rooturl'] = $scheme . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
-$config['api'] = $config['rooturl'] . "api.php";
+$config['api'] = rtrim($config['rooturl'], "/") . "/api.php";
 $config['cdn'] = getenv("CDN");
 // engine类型
 $config['engine'] = array();
