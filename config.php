@@ -40,3 +40,6 @@ $config['node_path'] = "/usr/lib/node_modules";
 // cache
 $config['cache']['error'] = readenv("CACHE_ERR",'600');
 $config['cache']['age'] = readenv("CACHE_NORMAL",'2592000');
+
+// analytics
+$config['analytics']['baidu'] = getenv("BAIDU");

@@ -35,5 +35,22 @@ echo $config['api'];?>
 </div>
 </div>
 <script src="static/js/editor.js"></script>
+<?php
+$baidu = $config['analytics']['baidu'];
+$baiduScript = <<<EOF
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?$baidu";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+EOF;
+if ($baidu != "") {
+	echo $baiduScript;
+}
+?>
 </body>
 </html>
