@@ -12,7 +12,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" charset="utf-8">
 <link rel="stylesheet" type="text/css" href="static/css/editor.css">
-<title>Chart Api Test Tool</title>
+<title>Text to Chart Api Editor</title>
+<?php
+require 'config.php';
+$clientId = $config['ad']['google'];
+$googlead = <<<EOF
+<script data-ad-client="ca-pub-$clientId" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+EOF;
+
+if ($clientId != "") {
+	echo $googlead;
+}
+?>
 </head>
 <body>
 <a class="github-fork-ribbon" href="https://github.com/annprog/chart" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
@@ -21,8 +32,7 @@
 <div id="demo" style="display:none"></div>
 <div id="editor">
 <form id="chart-editor" accept-charset="utf-8" name="editor" method="POST" action="
-<?php require 'config.php';
-echo $config['api'];?>
+<?php echo $config['api'];?>
 " enctype="application/x-www-form-urlencoded">
 	<textarea name="chl" id="chl"></textarea>
 	<br>

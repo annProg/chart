@@ -43,3 +43,6 @@ $config['cache']['age'] = readenv("CACHE_NORMAL",'2592000');
 
 // analytics
 $config['analytics']['baidu'] = getenv("BAIDU");
+
+// ad
+$config['ad']['google'] = getenv("GOOGLEAD");
