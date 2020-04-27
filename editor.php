@@ -9,13 +9,15 @@
 <script src="//cdn.bootcss.com/ace/1.2.9/theme-github.js"></script>
 <script src="//cdn.bootcss.com/marked/0.3.7/marked.min.js"></script>
 <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" charset="utf-8">
 <link rel="stylesheet" type="text/css" href="static/css/editor.css">
 <title>Chart Api Test Tool</title>
 </head>
 <body>
-
+<a class="github-fork-ribbon" href="https://github.com/annprog/chart" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
 <div id="content">
+<div id="title"><h1>Text to Chart API</h1></div>
 <div id="demo" style="display:none"></div>
 <div id="editor">
 <form id="chart-editor" accept-charset="utf-8" name="editor" method="POST" action="
