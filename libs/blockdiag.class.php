@@ -9,7 +9,21 @@
 $config['engine']['blockdiag'] = array(
 	"desc"=>"Blockdiag",
 	"usage" => "http://blockdiag.com/en/",
-	"class" => "blockdiag"
+	"class" => "blockdiag",
+	"demo" => <<<EOF
+blockdiag {
+  default_node_color = lightyellow;
+  default_group_color = lightgreen;
+  default_linecolor = magenta;
+  default_textcolor = red;
+
+  A -> B -> C;
+       B -> D;
+  group {
+    C; D;
+  }
+}
+EOF
 );
 
 class blockdiag extends plot {

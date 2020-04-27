@@ -9,7 +9,8 @@
 $config['engine']['qr'] = array(
 	"desc"=>"QRcode",
 	"usage" => "strings",
-	"class" => "qrcode"
+	"class" => "qrcode",
+	"demo" => "String"
 );
 
 class qrcode extends plot {

@@ -9,7 +9,17 @@
 $config['engine']['asy'] = array(
 	"desc"=>"Asymptote",
 	"usage" => "Asymptote language. see http://asymptote.sourceforge.net/",
-	"class" => "asymptote"
+	"class" => "asymptote",
+	"demo" => <<<EOF
+filldraw( (4cm,0) -- (4cm,3cm) -- (0,3cm) -- cycle,
+fillpen=palered, drawpen=red+0.5mm);
+filldraw( (7cm,4cm) -- (4cm,4cm) -- (4cm,0) -- cycle,
+	fillpen=palered, drawpen=red+0.5mm);
+filldraw( (3cm,7cm) -- (3cm,4cm) -- (7cm,4cm) -- cycle,
+	fillpen=palered, drawpen=red+0.5mm);
+filldraw( (0,3cm) -- (3cm,3cm) -- (3cm,7cm) -- cycle,
+	fillpen=palered, drawpen=red+0.5mm);
+EOF
 );
 
 class asymptote extends plot {

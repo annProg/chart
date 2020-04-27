@@ -9,7 +9,10 @@
 $config['engine']['gnuplot'] = array(
 	"desc"=>"Gnuplot",
 	"usage" => "http://gnuplot.sourceforge.net/",
-	"class" => "gnuplot"
+	"class" => "gnuplot",
+	"demo" => <<<EOF
+plot sin(x)*x;
+EOF
 );
 
 class gnuplot extends plot {

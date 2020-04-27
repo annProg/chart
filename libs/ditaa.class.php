@@ -9,7 +9,18 @@
 $config['engine']['ditaa'] = array(
 	"desc"=>"Ditaa",
 	"usage" => "http://ditaa.sourceforge.net/",
-	"class" => "ditaa"
+	"class" => "ditaa",
+	"demo" => <<<EOF
+    +--------+   +-------+    +-------+
+    |        | --+ ditaa +--> |       |
+    |  Text  |   +-------+    |diagram|
+    |Document|   |!magic!|    |       |
+    |     {d}|   |       |    |       |
+    +---+----+   +-------+    +-------+
+        :                         ^
+        |       Lots of work      |
+        +-------------------------+
+EOF
 );
 
 

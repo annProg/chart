@@ -9,7 +9,24 @@
 $config['engine']['msc'] = array(
 	"desc"=>"Message Sequence Chart",
 	"usage" => "http://www.mcternan.me.uk/mscgen/",
-	"class" => "mscgen"
+	"class" => "mscgen",
+	"demo" => <<<EOF
+# Fictional client-server protocol
+msc {
+ arcgradient = 8;
+
+ a [label="Client"],b [label="Server"];
+
+ a=>b [label="data1"];
+ a-xb [label="data2"];
+ a=>b [label="data3"];
+ a<=b [label="ack1, nack2"];
+ a=>b [label="data2", arcskip="1"];
+ |||;
+ a<=b [label="ack3"];
+ |||;
+}
+EOF
 );
 
 class mscgen extends plot {

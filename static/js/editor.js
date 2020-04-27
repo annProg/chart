@@ -1,44 +1,3 @@
-var form = $("#chart-editor");
-var api = form.attr("action") + '?list';
-//var listdata = {};
-$.get(api, function (data,status) {
-	//$("#listdata").html(data);
-	var select = $("#cht");
-	Object.keys(data).forEach(function(key) {
-		select.append('<option value="' + key + '">' + data[key]['desc'] + '</option>');
-	});
-	select.val("gv");
-});
-
-var input = document.getElementById("chl");
-input.style.display="none";
-var aceDiv = document.createElement('div');
-aceDiv.id="ace_editor";
-input.parentElement.parentElement.appendChild(aceDiv);
-
-var engine = document.getElementById('cht');
-var engineName = engine.value;
-var aceEditor = ace.edit("ace_editor");
-engine.onchange = function () {
-	if(engine.value == "ditaa") {
-		aceEditor.getSession().setMode("ace/mode/asciidoc");
-	} else if(engine.value == "markdown") {
-		aceEditor.getSession().setMode("ace/mode/markdown");
-	}else {
-		aceEditor.getSession().setMode("ace/mode/dot");
-	}
-	engineName = engine.value;
-}
-aceEditor.setTheme("ace/theme/github");
-aceEditor.setValue(input.value);
-aceEditor.setHighlightActiveLine(true);
-aceEditor.getSession().setUseWrapMode(true);
-aceEditor.setFontSize("18px");
-
-aceEditor.getSession().on("change", function(e) {
-	input.value = aceEditor.getValue();
-});
-
 function zxsq_ajaxpost(formid, recall) {
 	var request;
 	if(window.XMLHttpRequest) {
@@ -92,3 +51,53 @@ function onError(id) {
 	$("#" + id).attr('src', 'static/error.png');
 }	
 
+function submit() {
+	$("#submit").click();
+}
+
+var input = document.getElementById("chl");
+input.style.display="none";
+var aceDiv = document.createElement('div');
+aceDiv.id="ace_editor";
+input.parentElement.parentElement.appendChild(aceDiv);
+
+var engine = document.getElementById('cht');
+var aceEditor = ace.edit("ace_editor");
+
+engine.onchange = function () {
+	if(engine.value == "ditaa") {
+		aceEditor.getSession().setMode("ace/mode/asciidoc");
+	} else if(engine.value == "markdown") {
+		aceEditor.getSession().setMode("ace/mode/markdown");
+	}else {
+		aceEditor.getSession().setMode("ace/mode/dot");
+	}
+	input.value = $("#demo-"+engine.value.replace(':', '-')).text();
+	aceEditor.setValue(input.value);
+	submit();
+}
+aceEditor.setTheme("ace/theme/github");
+aceEditor.setHighlightActiveLine(true);
+aceEditor.getSession().setUseWrapMode(true);
+aceEditor.setFontSize("18px");
+
+aceEditor.getSession().on("change", function(e) {
+	input.value = aceEditor.getValue();
+});
+
+
+var form = $("#chart-editor");
+var api = form.attr("action") + '?list';
+$.get(api, function (data,status) {
+	var select = $("#cht");
+	var demo = $("#demo");
+	Object.keys(data).forEach(function(key) {
+		select.append('<option value="' + key + '">' + data[key]['desc'] + '</option>');
+		demo.append('<pre id="demo-' + key.replace(':', '-') + '">' + data[key]['demo'] + '</pre>');
+	});
+	select.val("gv");
+	aceEditor.setValue($("#demo-gv").text());
+	submit();
+});
+
+$().ready(submit);

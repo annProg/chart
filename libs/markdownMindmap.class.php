@@ -6,39 +6,62 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
+
+$demoMindmap = <<<EOF
+# plot
+## graphviz
+### dot
+### neato
+### fdp
+### sfdp
+### twopi
+### circo
+## ditaa
+## gnuplot
+## markdown mindmap
+### graphviz
+EOF;
+
 $config['engine']['markdown'] = array(
 	"desc"=>"MindMap",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:dot'] = array(
 	"desc"=>"MindMap(Dot)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:neato'] = array(
 	"desc"=>"MindMap(Neato)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:fdp'] = array(
 	"desc"=>"MindMap(Fdp)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:sfdp'] = array(
 	"desc"=>"MindMap(Sfdp)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:twopi'] = array(
 	"desc"=>"MindMap(Twopi)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 $config['engine']['markdown:circo'] = array(
 	"desc"=>"MindMap(Circo)",
 	"usage" => "# Title 1\n## Title 2\n### Title3",
+	"demo" => $demoMindmap,
 	"class" => "markdownMindmap"
 );
 

@@ -9,7 +9,8 @@
 $config['engine']['url2img'] = array(
 	"desc"=>"Wkhtmltoimage",
 	"usage" => "base64 encoding url",
-	"class" => "wkhtmltoimage"
+	"class" => "wkhtmltoimage",
+	"demo" => "aHR0cHM6Ly93d3cuYmFpZHUuY29tCg=="
 );
 
 class wkhtmltoimage extends plot {

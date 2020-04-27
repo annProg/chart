@@ -9,7 +9,8 @@
 $config['engine']['avatar'] = array(
 	"desc"=>"Identicon Avatar",
 	"usage" => "Identicon",
-	"class" => "identicon"
+	"class" => "identicon",
+	"demo" => "String"
 );
 
 require __DIR__.'/../vendor/autoload.php';

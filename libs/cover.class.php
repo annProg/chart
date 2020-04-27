@@ -10,12 +10,21 @@
 $config['engine']['cover'] = array(
 	"desc"=>"Book Cover",
 	"usage" => "Title\nAuthor",
-	"class" => "cover"
+	"class" => "cover",
+	"demo" => <<<EOF
+Title
+Author
+EOF
 );
 $config['engine']['cover:ten'] = array(
 	"desc"=>"Book Cover(tenprintcover)",
 	"usage" => "Title\nAuthor\nSubTitle",
-	"class" => "cover"
+	"class" => "cover",
+	"demo" => <<<EOF
+Title
+Author
+SubTitle
+EOF
 );
 	
 class cover extends plot {
