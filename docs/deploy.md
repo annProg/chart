@@ -1,19 +1,22 @@
-# 部署方法
+# Deployment
 
+## Install
 
-| cht | 安装方式 | 说明 |
+| cht | Install | Note |
 | -- | -- | -- |
-|gv | yum,apt等安装graphviz | 依赖`graphviz-gd` |
-|gp | yum,apt等安装gnuplot | |
-|ditaa |使用`tools/ditaa`, 复制 `tools/ditaa`到`/usr/local/bin`目录下即可|https://github.com/akavel/ditaa|
-|blockdiag |`pip install blockdiag` |中文字体参考下文配置 |
-| radar |`npm install svg-radar-chart -g && npm install virtual-dom-stringify`||
-|msc | 使用`tools/mscgen`, 复制 `tools/mscgen`到`/usr/local/bin`目录下即可||
-|cover |`pip install racovimge && yum install librsvg2` |Centos7上没有`rsvg`命令，可以从Centos6直接拷贝过去|
-|cover:ten |`tenprintcover.py已位于./tools/目录 pip install cairocffi` |tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)|
-| qr |`pip install myqr` ||
+|gv | install `graphviz` by yum, apt etc | require `graphviz-gd` |
+|gp | install `gnuplot` by yum, apt etc | |
+|ditaa |copy `tools/ditaa` to `/usr/local/bin`|https://github.com/akavel/ditaa|
+|blockdiag |`pip install blockdiag` |The CJK configuration method is in the next section |
+|radar |`npm install svg-radar-chart -g && npm install virtual-dom-stringify`||
+|msc | copy `tools/mscgen` to `/usr/local/bin`||
+|cover |`pip install racovimge && yum install librsvg2` |CentOS7 no `rsvg`，you can copy it from CentOS6|
+|cover:ten |`pip install cairocffi` |tenprintcover.py(https://github.com/mgiraldo/tenprintcover-py)|
+|qr |`pip install myqr` ||
+|url2img |install `wkhtmltopdf` by yum, apt etc||
+|asy | install `asymptote` by yum, apt etc||
 
-### blockdiag配置中文字体
+## blockdiag CJK configuration
 ```
 cp -r fonts/* /usr/share/fonts
 cat > /home/www/.blockdiagrc <<EOF
@@ -22,8 +25,8 @@ fontpath = /usr/share/fonts/wqy-microhei/wqy-microhei.ttc
 EOF
 ``` 
 
-### CORS支持
-Nginx增加如下配置
+## CORS
+Nginx configuration
 
 ```
 add_header Access-Control-Allow-Origin *;
@@ -31,9 +34,9 @@ add_header Access-Control-Allow-Methods POST,OPTIONS;
 add_header Access-Control-Allow-Headers Content-Type;
 ```
 
-### 获取正确的scheme
+## scheme
 
-Nginx中须配置
+Nginx configuration
 
 ```
 proxy_set_header X-Forwarded-Proto $scheme;
@@ -41,7 +44,7 @@ proxy_set_header X-Forwarded-Proto $scheme;
 
 ## CDN
 
-CDN源站加以下配置， `root`是 `chart` 的 `cache` 所在目录
+CDN 源站加以下配置， `root` 是 `chart` 的 `cache` 所在目录
 
 ```
 location ^~ /cache/ {
