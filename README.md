@@ -18,21 +18,21 @@ This API is used to convert Graph Description Language (GDL) and simple text int
 
 - Available engine (cht)
 
-| cht | description | note | demo |
-|----|----|--|--|
-| gv:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | graphviz| gv=gv:dot |[graphviz](docs/demo/graphviz.md) |
-| gnuplot  | gnuplot ||[gnuplot](docs/demo/gnuplot.md)|
-| ditaa | ditaa ||[ditaa](docs/demo/ditaa.md)|
-| markdown:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | markdown mindmap |markdown=markdown:dot|[mindmap](docs/demo/mindmap.md) |
-| radar | radar chart ||[radar](docs/demo/radar.md) |
-| msc | mscgen ||[mscgen](docs/demo/mscgen.md) |
-| cover | book cover (racovimge) ||[book cover](docs/demo/bookcover.md) |
-| cover:ten | book cover (tenprintcover.py) ||[book cover](docs/demo/bookcover.md) |
-| qr | qrcode ||[qrcode](docs/demo/qrcode.md) |
-| blockdiag | blockdiag ||[blockdiag](docs/demo/blockdiag.md) |
-| asy |asymptote ||[asymptote](docs/demo/asymptote.md) |
-| url2img | website screenshot ||[url2img](docs/demo/url2img.md) |
-| avatar | identicon avatar||[avatar](docs/demo/avatar.md) |
+| cht | description | note |
+|----|----|--|
+| gv:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | graphviz| gv=gv:dot |
+| gnuplot  | gnuplot ||
+| ditaa | ditaa ||
+| markdown:[dot\|neato\|fdp\|sfdp\|twopi\|circo] | markdown mindmap |markdown=markdown:dot|
+| radar | radar chart ||
+| msc | mscgen ||
+| cover | book cover (racovimge) ||
+| cover:ten | book cover (tenprintcover.py) ||
+| qr | qrcode ||
+| blockdiag | blockdiag ||
+| asy |asymptote ||
+| url2img | website screenshot ||
+| avatar | identicon avatar||
 
 ## Deployment
 
