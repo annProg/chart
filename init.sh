@@ -10,5 +10,7 @@ PHP_CONF="/etc/php/7.3/fpm/pool.d/www.conf"
 echo "catch_workers_output = yes" >> $PHP_CONF
 env |grep -v "=$" | grep "=" | sed -r "s/([a-zA-Z0-9_.]+)=(.*)/env[\1]='\2'/" |grep "^env\[" >> $PHP_CONF
 
+ln -s $WWWROOT/editor.php $WWWROOT/index.php
+
 exec supervisord -n
 

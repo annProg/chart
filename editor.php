@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta name="description" content="Text to Chart API, convert graph description language to image. Support graphviz, markdown mindmap, asymptote, gnuplot, identicon, wkhtmltoimage,ditaa and mscgen. Usefull for wiki, bbs and blog." />
+<meta name="keywords" content="graphviz,dot,markdown,mindmap,asymptote,gnuplot,identicon,ditaa,wkhtmltoimage,mscgen,blockdiag,book cover,Text to Chart,graph description language,Discuz,Wordpress,Dokuwiki,bbs,blog,wiki,API" />
 <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="//cdn.bootcss.com/ace/1.2.9/ace.js"></script>
 <script src="//cdn.bootcss.com/ace/1.2.9/mode-dot.js"></script>
