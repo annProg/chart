@@ -12,5 +12,8 @@ env |grep -v "=$" | grep "=" | sed -r "s/([a-zA-Z0-9_.]+)=(.*)/env[\1]='\2'/" |g
 
 ln -s $WWWROOT/editor.php $WWWROOT/index.php
 
+# 修复 tenprintcover.py 中文字体. Noto Sans CJK SC 大于 100MB，使用文泉驿字体代替
+sed -i 's/Noto Sans CJK SC/WenQuanYi Micro Hei/g' /usr/bin/tenprintcover.py
+
 exec supervisord -n
 
