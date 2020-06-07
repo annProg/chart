@@ -44,6 +44,13 @@ RUN sed -i 's|~|/tmp|g' /usr/local/lib/python3.7/dist-packages/racovimge/racovim
 RUN apt-get install --no-install-recommends -y binutils && rm -rf /var/cache/apt/*
 RUN strip --remove-section=.note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
 
+# draft
+RUN apt-get update && apt-get install --no-install-recommends -y wget && \
+	wget https://github.com/lucasepe/draft/releases/download/v0.1.0/draft_0.1.0_linux_64-bit.tar.gz -O /tmp/draft.tar.gz && \
+	tar zxvf /tmp/draft.tar.gz -C /usr/bin && rm -f /tmp/draft.tar.gz && \
+	apt-get remove -y wget --purge && \
+   	apt-get autoremove -y && apt-get clean
+
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
