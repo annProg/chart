@@ -91,10 +91,10 @@ class lp extends plot {
 		$resize = "mogrify -resize " . $this->width . "x" . $this->height . " " . $this->ofile;
 		if($this->width && $this->height) {
 			exec($resize, $out, $res);
+			if($res != 0) {
+				$this->onerr();
+			}
 		}
-		if($res != 0) {
-			$this->onerr();
-		}			
 		
 		return $this->result();
 	}
