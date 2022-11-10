@@ -1,5 +1,6 @@
 {
     "require": {
-        "yzalis/identicon": "^2.0"
+        "yzalis/identicon": "^2.0",
+        "zyan/license-plate-number": "^1.0"
     }
 }
