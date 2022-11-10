@@ -20,7 +20,7 @@ sed -i 's/Noto Sans CJK SC/WenQuanYi Micro Hei/g' /usr/bin/tenprintcover.py
 cp -r $WWWROOT/images/truck $CACHEDIR
 cd $CACHEDIR/truck
 for id in `ls`;do
-	mogrify -resize 120 $id
+	mogrify -resize 150 $id
 done
 
 exec supervisord -n

@@ -26,7 +26,10 @@ class lpavatar extends plot {
 		if(!in_array($this->chof, $this->valid_chof)) {
 			$this->chof = "jpg";
 		}
-		$this->width = "120";
+
+		if($this->width == "") {
+			$this->width = "120";
+		}
 
 		$this->province = ["京","津","沪","渝","冀","豫","云","辽","黑","湘","皖","鲁","新","苏","浙","赣","鄂","桂","甘","晋","蒙","陕","吉","闽","贵","粤","青","藏","川","宁","琼"];
 		$this->city = ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -83,13 +86,16 @@ class lpavatar extends plot {
 		$res = $plate->yellow(...$this->lp);
 		$lpfile = $res->getFilename();
 
-		exec("mogrify -resize " . $this->width . " " . $lpfile, $out, $res);
+		$defaultsize = "150";
+		exec("mogrify -resize " . $defaultsize . " " . $lpfile, $out, $res);
 		$combine = "convert -append " . $this->gettruck() . " " . $lpfile . " " . $this->ofile;
 		exec($combine, $out, $res);
 
 		if($res != 0) {
 			$this->onerr();
 		}
+
+		exec("mogrify -resize " . $this->width . " " . $this->ofile, $out, $res);
 		return $this->result();
 	}
 }
