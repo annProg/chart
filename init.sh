@@ -15,5 +15,13 @@ ln -s $WWWROOT/editor.php $WWWROOT/index.php
 # 修复 tenprintcover.py 中文字体. Noto Sans CJK SC 大于 100MB，使用文泉驿字体代替
 sed -i 's/Noto Sans CJK SC/WenQuanYi Micro Hei/g' /usr/bin/tenprintcover.py
 
+# 复制truck图片，并统一设置宽度
+
+cp -r $WWWROOT/images/truck $CACHEDIR
+cd $CACHEDIR/truck
+for id in `ls`;do
+	mogrify -resize 120 $id
+done
+
 exec supervisord -n
 
