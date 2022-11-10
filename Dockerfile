@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 ENV TIMEZONE Asia/Shanghai
 ENV WWWROOT /home/wwwroot/default
@@ -13,11 +13,11 @@ RUN mkdir -p ${WWWROOT} && \
 
 # nginx + php
 RUN	apt-get update && \
-	apt-get install --no-install-recommends -y supervisor nginx php7.3 php7.3-fpm php7.3-gd \
-	php7.3-json php7.3-curl php7.3-mbstring php7.3-iconv php7.3-opcache && \
+	apt-get install --no-install-recommends -y supervisor nginx php7.4 php7.4-fpm php7.4-gd \
+	php7.4-json php7.4-curl php7.4-mbstring php7.4-iconv php7.4-opcache && \
 	rm -fr /var/cache/apt/*
-RUN	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.3/fpm/php-fpm.conf && \
-    sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/7.3/fpm/php.ini
+RUN	sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.4/fpm/php-fpm.conf && \
+    sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/7.4/fpm/php.ini
 
 # graphviz asymptote wkhtmltopdf
 RUN	apt-get update && \
@@ -38,7 +38,7 @@ RUN	apt-get update && \
 	rm -rf /var/cache/apt/*
 
 # fix racovimge font dir
-RUN sed -i 's|~|/tmp|g' /usr/local/lib/python3.7/dist-packages/racovimge/racovimge.py
+RUN sed -i 's|~|/tmp|g' /usr/local/lib/python3.8/dist-packages/racovimge/racovimge.py
 
 # fix wkhtmltopdf ref:https://github.com/wkhtmltopdf/wkhtmltopdf/issues/4497
 RUN apt-get install --no-install-recommends -y binutils && rm -rf /var/cache/apt/*
@@ -58,8 +58,7 @@ COPY conf/rsvg /usr/bin/rsvg
 
 RUN chmod +x /usr/bin/rsvg
 
-COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-RUN mkdir /run/php
+COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # 更新代码
 RUN chown -R www-data:www-data ${WWWROOT}
