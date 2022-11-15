@@ -61,7 +61,7 @@ class lpavatar extends plot {
 			$this->onerr();
 		}
 
-		$province = $this->province[$uid[3]%31];
+		$province = $this->province[$uid[3]%31-1];
 		$city = $this->city[$uid[3]%24];
 		$lp1 = $this->num[$uid[1]%34];
 		$lp2 = $this->num[$uid[2]/10];
