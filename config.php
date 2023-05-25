@@ -25,6 +25,16 @@ $config = array();
 $config['rooturl'] = $scheme . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 $config['api'] = rtrim($config['rooturl'], "/") . "/api.php";
 $config['cdn'] = getenv("CDN");
+// 允许使用cdn的域名白名单，逗号分隔
+$config['allowcdn'] = getenv("ALLOWCDN");
+$config['allowcdns'] = explode(",", $config['allowcdn']);
+
+if(isset($_SERVER['HTTP_REFERER'])) {
+	preg_match('/http(s?):\/\/([a-z0-9\.-]+)?(:\d+)?(\/)?/', $_SERVER['HTTP_REFERER'], $matches);
+	if(!in_array($matches[2], $config['allowcdns'])) {
+		$config['cdn'] = "";
+	}
+}
 // engine类型
 $config['engine'] = array();
 // 禁用某些engine

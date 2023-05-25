@@ -3,7 +3,6 @@ REGISTRY ?= ann17
 IMAGE = $(REGISTRY)/$(IMAGENAME)
 TAG ?= latest
 APP ?= chart
-exists ?= $(shell docker ps -a |grep $(APP) &>/dev/null && echo "yes" || echo "no")
 PORT ?= 8080
 PWD =$(shell pwd)
 APP_CONFIG_PATH ?= /run/secret/appconfig
@@ -11,6 +10,7 @@ CDN ?=
 DISABLED ?=
 BAIDU ?=
 GOOGLEAD ?=
+ALLOWCDN ?=
 
 all: build push
 
@@ -30,8 +30,19 @@ push-gv:
 	docker push $(IMAGE)-gv:latest
 
 run:
-ifeq ($(exists), yes)
-	docker stop $(APP);docker rm $(APP)
-endif
-	docker run --name $(APP) -d -e "GOOGLEAD=$(GOOGLEAD)" -e "BAIDU=$(BAIDU)" -e "DISABLED=$(DISABLED)" -e "CDN=$(CDN)" -p $(PORT):80 --env APP_CONFIG_PATH=$(APP_CONFIG_PATH) -v $(PWD)/config.php:$(APP_CONFIG_PATH)/CONFIG -v $(PWD)/cache:/home/wwwroot/default/cache -v $(PWD)/logs:/var/log/supervisor --restart=always $(IMAGE):$(TAG)
+	docker run --name $(APP) -d \
+	-e "GOOGLEAD=$(GOOGLEAD)" \
+	-e "BAIDU=$(BAIDU)" \
+	-e "DISABLED=$(DISABLED)" \
+	-e "CDN=$(CDN)" \
+	-e "ALLOWCDN=$(ALLOWCDN)" \
+	-p $(PORT):80 \
+	--env APP_CONFIG_PATH=$(APP_CONFIG_PATH) \
+	-v $(PWD)/config.php:$(APP_CONFIG_PATH)/CONFIG \
+	-v $(PWD)/cache:/home/wwwroot/default/cache \
+	-v $(PWD)/logs:/var/log/supervisor \
+	--restart=always $(IMAGE):$(TAG)
 
+clean:
+	docker stop $(APP)
+	docker rm $(APP)
