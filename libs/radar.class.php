@@ -30,9 +30,10 @@ class radar extends plot {
 		$this->js = <<<EOF
 import {radar} from 'svg-radar-chart'
 import stringify from 'virtual-dom-stringify'
+import {smoothing} from 'svg-radar-chart/smoothing.js'
 EOF;
 		$this->svg = <<<EOF
-const opt={shapeProps: (data) => ({className: 'shape ' + data.class}), size:100, scales: 5, captions: true, captionsPosition: 1.2, smoothing: .3}
+const opt={shapeProps: (data) => ({className: 'shape ' + data.class}), size:100, scales: 5, captions: true, captionsPosition: 1.2, smoothing: smoothing(.5)}
 const chart = radar(columns,data,opt)
 const svg = `<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 	<style>
@@ -52,6 +53,7 @@ const svg = `<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10
 		.shape:hover {
 			fill-opacity: .6;
 		}
+		\${style}
 	</style>
 	\${stringify(chart)}
 </svg>
