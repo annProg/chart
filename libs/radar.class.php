@@ -19,15 +19,22 @@ EOF
 );
 
 class radar extends plot {
-	private $js = <<<EOF
-'use strict'
-const radar = require('svg-radar-chart')
-const stringify = require('virtual-dom-stringify')
+	private $js;
+	private $svg;
+
+	private $node_path = "/usr/local/node/lib/node_modules";
+
+	function __construct($args) {
+		parent::__construct($args);
+		$this->chof="svg";
+		$this->js = <<<EOF
+import {radar} from 'svg-radar-chart'
+import stringify from 'virtual-dom-stringify'
 EOF;
-	private $svg = <<<EOF
-var opt={shapeProps: (data) => ({className: 'shape ' + data.class}), size:100}
+		$this->svg = <<<EOF
+const opt={shapeProps: (data) => ({className: 'shape ' + data.class}), size:100, scales: 5, captions: true, captionsPosition: 1.2, smoothing: .3}
 const chart = radar(columns,data,opt)
-process.stdout.write(`<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+const svg = `<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 	<style>
 		.axis {
 			stroke: #555;
@@ -42,19 +49,15 @@ process.stdout.write(`<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBo
 			fill-opacity: .3;
 			stroke-width: .5;
 		}
-		.shape:hover { fill-opacity: .6; }
-		\${style}
+		.shape:hover {
+			fill-opacity: .6;
+		}
 	</style>
 	\${stringify(chart)}
 </svg>
-`)
+`
+process.stdout.write(svg)
 EOF;
-
-	private $node_path = "/usr/lib/node_modules";
-
-	function __construct($args) {
-		parent::__construct($args);
-		$this->chof="svg";
 	}
 
 	function __get($property_name) {
@@ -103,13 +106,13 @@ EOF;
 		$style = "var style='";
 		$data = "var data=[";
 		foreach($arr as $key => $val) {
+			$color = $this->random_color();
 			$d = explode(",", $val);
 			$data .= "{class:'" . $d[0] . "',";
 			foreach($d as $k => $v) {
 				if($k == 0) continue;
 				$data .= "c" . $k . ":" . $v . ",";
 			}
-			$color = $this->random_color();
 			$style .= ".shape." . $d[0] . "{ fill:" . $color . "; stroke: " . $color . "; }  ";
 			$data .= "},";
 		}
@@ -126,7 +129,7 @@ EOF;
 	function render() {
 		$p = parent::render();
 		if($p) return($p);
-		exec("export NODE_PATH=$this->node_path;node $this->ifile &> $this->ofile", $out, $res);
+		exec("export NODE_PATH=$this->node_path;node < $this->ifile > $this->ofile", $out, $res);
 		if($res != 0) {
 			$this->onerr();
 		}

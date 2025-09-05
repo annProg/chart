@@ -51,6 +51,19 @@ RUN apt-get update && apt-get install --no-install-recommends -y wget && \
 	apt-get remove -y wget --purge && \
    	apt-get autoremove -y && apt-get clean
 
+# radar chart
+RUN apt-get install --no-install-recommends -y wget xz-utils && \
+	wget  "https://nodejs.org/dist/v20.19.5/node-v20.19.5-linux-x64.tar.xz" -O node.tar.xz && \
+	mkdir -p /usr/local/node && \
+	tar -xvf node.tar.xz -C /usr/local/node --strip-components=1 && \
+	rm -f node.tar.xz && \
+	apt-get remove -y wget xz-utils --purge && \
+	apt-get autoremove -y && apt-get clean
+ENV PATH="/usr/local/node/bin:${PATH}"
+ENV NODE_PATH="/usr/local/node/lib/node_modules"
+WORKDIR /home/wwwroot/default
+RUN npm install virtual-dom-stringify svg-radar-chart
+
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
 COPY conf/.blockdiagrc /home/nobody/.blockdiagrc
@@ -77,5 +90,6 @@ RUN ls ${WWWROOT}
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
+
 
 CMD ["sh", "/init.sh"]

@@ -3,7 +3,7 @@ REGISTRY ?= ann17
 IMAGE = $(REGISTRY)/$(IMAGENAME)
 TAG ?= latest
 APP ?= chart
-PORT ?= 8080
+PORT ?= 8084
 PWD =$(shell pwd)
 APP_CONFIG_PATH ?= /run/secret/appconfig
 CDN ?=
@@ -46,3 +46,8 @@ run:
 clean:
 	docker stop $(APP)
 	docker rm $(APP)
+
+clean-cache:
+	rm -fr cache/code
+	rm -fr cache/images
+test: clean-cache build clean run
