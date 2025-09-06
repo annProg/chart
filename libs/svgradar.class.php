@@ -6,7 +6,7 @@
  * Mail: i@annhe.net
  * Created Time: 2017-12-16 02:44:03
  **/
-$config['engine']['radar'] = array(
+$config['engine']['svgradar'] = array(
 	"desc"=>"SVG Radar Chart",
 	"usage" => "use csv format",
 	"class" => "svgradar",

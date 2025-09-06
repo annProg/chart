@@ -63,6 +63,7 @@ ENV PATH="/usr/local/node/bin:${PATH}"
 ENV NODE_PATH="/usr/local/node/lib/node_modules"
 WORKDIR /home/wwwroot/default
 RUN npm install virtual-dom-stringify svg-radar-chart
+RUN npm install chartjs-node-canvas canvas
 
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 COPY conf/supervisord.conf /etc/supervisord.conf
