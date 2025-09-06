@@ -11,6 +11,7 @@ $config['engine']['radar'] = array(
 	"usage" => "use csv format",
 	"class" => "radar",
 	"demo" => <<<EOF
+title:雷达图测试
 name,价格,易用性,性能,外观,功能
 iphoneX,.5,.9,1,.9,.8
 Mi6,.8,.9,.9,.8,.8

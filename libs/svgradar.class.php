@@ -7,9 +7,9 @@
  * Created Time: 2017-12-16 02:44:03
  **/
 $config['engine']['radar'] = array(
-	"desc"=>"Radar Chart",
+	"desc"=>"SVG Radar Chart",
 	"usage" => "use csv format",
-	"class" => "radar",
+	"class" => "svgradar",
 	"demo" => <<<EOF
 name,价格,易用性,性能,外观,功能
 iphoneX,.5,.9,1,.9,.8
@@ -18,7 +18,7 @@ P10,.6,.9,.9,.8,.8
 EOF
 );
 
-class radar extends plot {
+class svgradar extends plot {
 	private $js;
 	private $svg;
 
