@@ -1,0 +1,140 @@
+<?php
+/**
+ * Usage:
+ * File Name:
+ * Author: annhe  
+ * Mail: i@annhe.net
+ * Created Time: 2017-12-16 02:44:03
+ **/
+$config['engine']['radar'] = array(
+	"desc"=>"Radar Chart",
+	"usage" => "use csv format",
+	"class" => "radar",
+	"demo" => <<<EOF
+name,价格,易用性,性能,外观,功能
+iphoneX,.5,.9,1,.9,.8
+Mi6,.8,.9,.9,.8,.8
+P10,.6,.9,.9,.8,.8
+EOF
+);
+
+class radar extends plot {
+	private $js;
+	private $svg;
+
+	private $node_path = "/usr/local/node/lib/node_modules";
+
+	function __construct($args) {
+		parent::__construct($args);
+		$this->chof="svg";
+		$this->js = <<<EOF
+import {radar} from 'svg-radar-chart'
+import stringify from 'virtual-dom-stringify'
+import {smoothing} from 'svg-radar-chart/smoothing.js'
+EOF;
+		$this->svg = <<<EOF
+const opt={shapeProps: (data) => ({className: 'shape ' + data.class}), size:100, scales: 5, captions: true, captionsPosition: 1.2, smoothing: smoothing(.5)}
+const chart = radar(columns,data,opt)
+const svg = `<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+	<style>
+		.axis {
+			stroke: #555;
+			stroke-width: .2;
+		}
+		.scale {
+			fill: #f0f0f0;
+			stroke: #999;
+			stroke-width: .2;
+		}
+		.shape {
+			fill-opacity: .3;
+			stroke-width: .5;
+		}
+		.shape:hover {
+			fill-opacity: .6;
+		}
+		\${style}
+	</style>
+	\${stringify(chart)}
+</svg>
+`
+process.stdout.write(svg)
+EOF;
+	}
+
+	function __get($property_name) {
+		if(!isset($this->$property_name)) {
+			return(NULL);
+		}
+		return($this->$property_name);
+	}
+	
+	function __set($property_name, $value) {
+		if(!isset($this->$property_name)) {
+			return(false);
+		}
+		$this->$property_name = $value;
+	}
+
+	function random_color() {
+		$colors = array();
+		for($i = 0;$i<6;$i++) {
+			$colors[] = dechex(rand(0,15));
+		}
+		return "#" . implode('',$colors);
+	}
+
+	function csv2radar() {
+		$csv = preg_replace("/\r\n?/", "\n", $this->chl);
+		$arr = explode("\n", $csv);
+		$arr = array_filter($arr, function($k) {
+			$v = str_replace(" ", "", $k);
+			if($v == "") return false;
+			return true;
+		});
+		$arr = array_values($arr);
+
+		$columns = explode(",",$arr[0]);
+		unset($arr[0]);
+		$len = count($columns);
+		
+		$co = "var columns={";
+		foreach($columns as $k => $v) {
+			if($k == 0) continue;
+			$co .= "c" . $k . ":" . "'" . $v . "',";
+		}
+		$co .= "}";
+	
+		$style = "var style='";
+		$data = "var data=[";
+		foreach($arr as $key => $val) {
+			$color = $this->random_color();
+			$d = explode(",", $val);
+			$data .= "{class:'" . $d[0] . "',";
+			foreach($d as $k => $v) {
+				if($k == 0) continue;
+				$data .= "c" . $k . ":" . $v . ",";
+			}
+			$style .= ".shape." . $d[0] . "{ fill:" . $color . "; stroke: " . $color . "; }  ";
+			$data .= "},";
+		}
+		$data .= "]";
+		$style .= "'";
+		return $this->js . "\n" . $style . "\n" .  $co . "\n". $data . "\n" . $this->svg;
+	}
+
+	function writeCode() {
+		$this->chl = $this->csv2radar();
+		parent::writeCode();
+	}
+
+	function render() {
+		$p = parent::render();
+		if($p) return($p);
+		exec("export NODE_PATH=$this->node_path;node < $this->ifile > $this->ofile", $out, $res);
+		if($res != 0) {
+			$this->onerr();
+		}
+		return $this->result();
+	}
+}
